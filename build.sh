@@ -13,6 +13,7 @@ sudo apt-get -y install \
         curl \
         tzdata \
         emacs26 \
+        openjdk-8-jdk \
         ubuntu-desktop \
         ubuntu-defaults-ja \
         chromium-browser \
