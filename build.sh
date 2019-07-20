@@ -22,7 +22,6 @@ sudo apt-get -y install \
 sudo apt-get -y purge firefox
 
 mkdir -p $HOME/bin $HOME/.local/bin
-rm -f $HOME/.profile
 
 # timezone
 #sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -34,6 +33,7 @@ sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
 # dotfiles
 git clone https://github.com/chupaaaaaaan/dotfiles.git
 ./dotfiles/deploy.sh
+rm -f $HOME/.profile && ln -s $HOME/.bash_profile $HOME/.profile
 
 # haskell stack
 curl -sSL https://get.haskellstack.org/ | sh
