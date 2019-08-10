@@ -13,15 +13,17 @@ sudo apt-get -y install \
         curl \
         tzdata \
         emacs26 \
+        ifupdown \
         openjdk-8-jdk \
         ubuntu-desktop \
         ubuntu-defaults-ja \
-        chromium-browser \
-        nautilus-dropbox
+        chromium-browser
 
-sudo apt-get -y purge firefox
+sudo apt-get -y purge firefox thunderbird
+sudo apt-get -y autoremove
 
 mkdir -p $HOME/bin $HOME/.local/bin
+mkdir -p $HOME/.bash_profile.d $HOME/.bashrc.d
 
 # timezone
 #sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
@@ -44,5 +46,27 @@ sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev
 git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules
 cd haskell-ide-engine
 stack ./install.hs hie-8.6.4
-stack ./install.hs build-doc   
+stack ./install.hs build-data
 
+
+# node.js
+export NVM_DIR=$HOME/.nvm
+mkdir -p "$NVM_DIR"
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh
+[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion
+
+nvm install stable
+nvm alias default stable
+
+
+# profile setting of node
+echo 'export NVM_DIR=$HOME/.nvm'                                        >  $HOME/.bash_profile.d/node
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bash_profile.d/node
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >  $HOME/.bashrc.d/node
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node
+
+
+# elm
+npm config set -g user root
+npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server

@@ -29,8 +29,8 @@ Vagrant.configure(2) do |config|
 
     node.vm.provision "shell", path: "./build.sh", privileged: false
 
-    # node.vm.synced_folder "/Users/t-uchida/vagrant/share", "/vagrant", mount_options: ['dmode=755','fmode=744']
-    
+    node.vm.synced_folder "C:\\Users\\jacob\\Dropbox", "/home/vagrant/Dropbox", mount_options: ['dmode=755','fmode=644']
+
   end
 
 end
