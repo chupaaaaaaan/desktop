@@ -33,7 +33,8 @@ sudo timedatectl set-timezone Asia/Tokyo
 sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" 
 
 # dotfiles
-git clone https://github.com/chupaaaaaaan/dotfiles.git
+[ -d "${HOME}/dotfiles" ] || git clone https://github.com/chupaaaaaaan/dotfiles.git
+cd ./dotfiles && git pull && cd ../
 ./dotfiles/deploy.sh
 rm -f $HOME/.profile && ln -s $HOME/.bash_profile $HOME/.profile
 
