@@ -13,14 +13,19 @@ sudo apt-get -y install \
         curl \
         tzdata \
         emacs26 \
+        vagrant \
         ifupdown \
         openjdk-8-jdk \
         ubuntu-desktop \
         ubuntu-defaults-ja \
+        fonts-ricty-diminished \
         chromium-browser
 
 sudo apt-get -y purge firefox thunderbird
 sudo apt-get -y autoremove
+
+sudo snap install discord
+sudo snap install slack --classic
 
 mkdir -p $HOME/bin $HOME/.local/bin
 mkdir -p $HOME/.bash_profile.d $HOME/.bashrc.d
@@ -71,3 +76,7 @@ echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME
 # elm
 npm config set -g user root
 npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
+
+
+# dotfile cleanup
+cd ./dotfiles && git reset --hard && cd ../
