@@ -22,7 +22,6 @@ sudo apt-get -y install \
         chromium-browser
 
 sudo apt-get -y purge firefox thunderbird
-sudo apt-get -y autoremove
 
 sudo snap install discord
 sudo snap install slack --classic
@@ -52,7 +51,7 @@ sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev
 git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules
 cd haskell-ide-engine
 stack ./install.hs stack-hie-8.6.4
-stack ./install.hs build-data
+stack ./install.hs stack-build-data
 
 
 # node.js
@@ -78,5 +77,9 @@ npm config set -g user root
 npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
 
 
-# dotfile cleanup
+# cleanup
+## apt
+sudo apt-get -y autoremove
+
+## dotfiles
 cd ./dotfiles && git reset --hard && cd ../
