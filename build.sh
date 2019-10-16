@@ -15,6 +15,7 @@ sudo apt-get -y install \
         emacs26 \
         vagrant \
         ifupdown \
+        freeglut3-dev \
         openjdk-8-jdk \
         ubuntu-desktop \
         ubuntu-defaults-ja \
@@ -37,9 +38,10 @@ sudo timedatectl set-timezone Asia/Tokyo
 sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" 
 
 # dotfiles
-[ -d "${HOME}/dotfiles" ] || git clone https://github.com/chupaaaaaaan/dotfiles.git
-cd ./dotfiles && git pull && cd ../
-./dotfiles/deploy.sh
+cd $HOME
+[ -d "$HOME/dotfiles" ] || git clone https://github.com/chupaaaaaaan/dotfiles.git
+cd $HOME/dotfiles && git pull && cd $HOME
+$HOME/dotfiles/deploy.sh
 rm -f $HOME/.profile && ln -s $HOME/.bash_profile $HOME/.profile
 
 # haskell stack
@@ -49,10 +51,10 @@ curl -sSL https://get.haskellstack.org/ | sh
 # https://github.com/haskell/haskell-ide-engine
 sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev
 git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules
-cd haskell-ide-engine
+cd $HOME/haskell-ide-engine
 stack ./install.hs stack-hie-8.6.4
 stack ./install.hs stack-build-data
-
+cd $HOME
 
 # node.js
 export NVM_DIR=$HOME/.nvm
@@ -82,4 +84,4 @@ npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-l
 sudo apt-get -y autoremove
 
 ## dotfiles
-cd ./dotfiles && git reset --hard && cd ../
+cd $HOME/dotfiles && git reset --hard && cd $HOME
