@@ -13,8 +13,8 @@ sudo apt-get -y install \
         curl \
         tzdata \
         emacs26 \
-        vagrant \
         ifupdown \
+        python3-pip \
         freeglut3-dev \
         openjdk-8-jdk \
         ubuntu-desktop \
@@ -44,11 +44,22 @@ cd $HOME/dotfiles && git pull && cd $HOME
 $HOME/dotfiles/deploy.sh
 rm -f $HOME/.profile && ln -s $HOME/.bash_profile $HOME/.profile
 
+# awscli
+cd $HOME
+pip3 install awscli --upgrade --user
+
+# terraform
+cd $HOME
+curl -O https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip
+unzip terraform_0.12.12_linux_amd64.zip
+rm -f terraform_0.12.12_linux_amd64.zip
+mv -f terraform bin/
+
 # haskell stack
 curl -sSL https://get.haskellstack.org/ | sh
 
 # haskell ide engine
-# https://github.com/haskell/haskell-ide-engine
+cd $HOME
 sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev
 git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules
 cd $HOME/haskell-ide-engine
@@ -57,6 +68,7 @@ stack ./install.hs stack-build-data
 cd $HOME
 
 # node.js
+cd $HOME
 export NVM_DIR=$HOME/.nvm
 mkdir -p "$NVM_DIR"
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
