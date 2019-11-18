@@ -1,99 +1,38 @@
 #!/bin/bash
 
-# packages
-sudo add-apt-repository -y ppa:kelleyk/emacs
-curl -s https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg | sudo apt-key add -
-curl -s https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg | sudo apt-key add -
-sudo curl -s -o /etc/apt/sources.list.d/ubuntu-ja.list https://www.ubuntulinux.jp/sources.list.d/bionic.list
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get -y dist-upgrade
-sudo apt-get -y install \
-        git \
-        curl \
-        tzdata \
-        emacs26 \
-        ifupdown \
-        python3-pip \
-        freeglut3-dev \
-        openjdk-8-jdk \
-        ubuntu-desktop \
-        ubuntu-defaults-ja \
-        fonts-ricty-diminished \
-        chromium-browser
+##
+## @(#) 開発環境のセットアップスクリプトを実行する
+##
 
-sudo apt-get -y purge firefox thunderbird
+set -e
+set -u
+set -o pipefail
 
-sudo snap install discord
-sudo snap install slack --classic
+# コマンドを表示して実行
+run () {
+    echo -e "\033[34m[localhost]$ $1\033[m" >&2
+    eval $1
+}
 
-mkdir -p $HOME/bin $HOME/.local/bin
-mkdir -p $HOME/.bash_profile.d $HOME/.bashrc.d
+# コピーするファイル
+files='{tasks.txt,tasks}'
 
-# timezone
-#sudo ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-sudo timedatectl set-timezone Asia/Tokyo
+# ファイルのコピー
+run "cp -rf $HOME/Dropbox/desktop/$files $HOME"
 
-# locale
-sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja" 
-
-# dotfiles
+# スクリプト実行
+cat <<'HERE' | run "sh"
+set -eu
 cd $HOME
-[ -d "$HOME/dotfiles" ] || git clone https://github.com/chupaaaaaaan/dotfiles.git
-cd $HOME/dotfiles && git pull && cd $HOME
-$HOME/dotfiles/deploy.sh
-rm -f $HOME/.profile && ln -s $HOME/.bash_profile $HOME/.profile
+grep -v -e '^[[:space:]]*#' -e '^[[:space:]]*$' tasks.txt | while read script; do
+    echo >&2
+    echo "bash tasks/$script" >&2
+    bash tasks/$script
+done
+HERE
 
-# awscli
-cd $HOME
-pip3 install awscli --upgrade --user
+# ファイルの削除
+run "rm -rf $files"
 
-# terraform
-cd $HOME
-curl -O https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip
-unzip terraform_0.12.12_linux_amd64.zip
-rm -f terraform_0.12.12_linux_amd64.zip
-mv -f terraform bin/
-
-# haskell stack
-curl -sSL https://get.haskellstack.org/ | sh
-
-# haskell ide engine
-cd $HOME
-sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev
-git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules
-cd $HOME/haskell-ide-engine
-stack ./install.hs stack-hie-8.6.4
-stack ./install.hs stack-build-data
-cd $HOME
-
-# node.js
-cd $HOME
-export NVM_DIR=$HOME/.nvm
-mkdir -p "$NVM_DIR"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
-[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh
-[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion
-
-nvm install stable
-nvm alias default stable
-
-
-# profile setting of node
-echo 'export NVM_DIR=$HOME/.nvm'                                        >  $HOME/.bash_profile.d/node
-echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bash_profile.d/node
-echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >  $HOME/.bashrc.d/node
-echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node
-
-
-# elm
-npm config set -g user root
-npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
-
-
-# cleanup
-## apt
-sudo apt-get -y autoremove
-
-## dotfiles
-cd $HOME/dotfiles && git reset --hard && cd $HOME
+# dotfilesのreset
+run "( cd $HOME/dotfiles && git reset --hard )"
