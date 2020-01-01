@@ -4,7 +4,7 @@ set -e
 set -u
 set -o pipefail
 
-# : 基本設定 ||
+: 基本設定 ||
     {
         # 共通で使用するディレクトリの作成
         mkdir -p $HOME/bin
@@ -21,7 +21,7 @@ set -o pipefail
     }
 
 
-# : 必要なパッケージのインストール（各ソフトウェアで必要なパッケージは、ソフトウェアインストール時に導入） ||
+: 必要なパッケージのインストール（各ソフトウェアで必要なパッケージは、ソフトウェアインストール時に導入） ||
     {
         wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add -
         wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add -
@@ -55,7 +55,7 @@ set -o pipefail
     }
 
 
-# : dotfileのインストール ||
+: dotfileのインストール ||
     {
         # dotfilesのインストール
         if [ -d "$HOME/dotfiles" ]; then
@@ -68,7 +68,7 @@ set -o pipefail
     }
 
 
-# : Nixのインストール ||
+: Nixのインストール ||
     {
         # Nixのインストール
         sh <(curl https://nixos.org/nix/install) --no-daemon
@@ -85,7 +85,7 @@ set -o pipefail
     }
 
 
-# : Terraformインストール ||
+: Terraformインストール ||
     {
         # pip3のインストール
         sudo apt-get -y install python3-pip
@@ -145,8 +145,7 @@ set -o pipefail
     }
 
 
-
-# : IntelliJ IDEAインストール ||
+: IntelliJ IDEAインストール ||
     {
         # 必要なパッケージのインストール
         sudo apt-get -y install openjdk-11-jdk maven
