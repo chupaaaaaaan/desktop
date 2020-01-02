@@ -73,6 +73,10 @@ set -o pipefail
         # Nixのインストール
         sh <(curl https://nixos.org/nix/install) --no-daemon
 
+        # Nix用プロファイルの作成
+        : > $HOME/.bash_profile.d/nix
+        echo 'if [ -e /home/vagrant/.nix-profile/etc/profile.d/nix.sh ]; then . /home/vagrant/.nix-profile/etc/profile.d/nix.sh; fi' >> $HOME/.bash_profile.d/nix
+
         # Nix設定のロード
         . /home/vagrant/.nix-profile/etc/profile.d/nix.sh
 
