@@ -80,8 +80,12 @@ set -o pipefail
         # Nix設定のロード
         . /home/vagrant/.nix-profile/etc/profile.d/nix.sh
 
-        # nixpkgsのアップデート
-        nix-channel --update nixpkgs
+        # channelの追加
+        nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+        nix-channel --add https://nixos.org/channels/nixos-19.09 nixos-19-09
+
+        # すべてのchannelのアップデート
+        nix-channel --update
 
         # Cachixのインストール
         nix-env -iA cachix -f https://cachix.org/api/v1/install
@@ -105,17 +109,47 @@ set -o pipefail
     }
 
 
-: Haskellインストール ||
+: Haskellインストール_nix使用 ||
     {
-        # 必要なパッケージのインストール(gloss用にfreeglut)
-        sudo apt-get -y install freeglut3-dev
+        # 必要なパッケージのインストール(gloss用にfreeglut含む)
+        sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev freeglut3-dev
 
-        # haskell stackのインストール
-        nix-env -iA nixpkgs.stack
+        # haskell stack/cabalのインストール
+
+        nix-env -iPA \
+                nixpkgs.stack \
+                nixpkgs.cabal-install
+
+        # haskell ghcのインストール（新しいバージョンの優先度を高くしておく）
+        nix-env -iPA nixos.haskell.compiler.ghc865
+        nix-env --set-flag priority 4 ghc-8.6.5
+        nix-env -iPA nixos-19-09.haskell.compiler.ghc864
 
         # Haskell IDE Engineのインストール
         cachix use all-hies
         nix-env -iA selection --arg selector 'p: { inherit (p) ghc864 ghc865; }' -f https://github.com/infinisil/all-hies/tarball/master
+    }
+
+
+: Haskellインストール_stack使用 ||
+    {
+        # 必要なパッケージのインストール(gloss用にfreeglut含む)
+        sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev freeglut3-dev
+
+        # haskell stack/cabalのインストール
+        sudo rm /usr/local/bin/stack -rf &&
+        curl -sSL https://get.haskellstack.org/ | sh 
+
+        # Haskell IDE Engineのインストール
+        # lsp-haskellとの相性の都合で、最新版ではなく0.13.0.0を使用する
+        (cd $HOME &&
+             git clone https://github.com/haskell/haskell-ide-engine.git &&
+             cd ${HOME}/haskell-ide-engine/ &&
+             git checkout -b tag-0.13.0.0 refs/tags/0.13.0.0
+             stack install.hs hie-8.6.5 &&
+             stack install.hs hie-8.6.4 &&
+             stack install.hs data &&
+             stack install cabal-install)
     }
 
 
@@ -159,7 +193,7 @@ set -o pipefail
         echo 'export JAVA_HOME=$(echo $(readlink -f /usr/bin/javac) | sed -e "s:/bin/javac::")' >> $HOME/.bash_profile.d/jdk
 
         # Intellij IDEAのインストール
-        sudo snap install intellij-idea-community --classic
+        sudo snap install intellij-idea-ultimate --classic
     }
 
 
