@@ -34,6 +34,7 @@ set -o pipefail
              unzip \
              tzdata \
              ubuntu-desktop \
+             bash-completion \
              ubuntu-defaults-ja \
              fonts-ricty-diminished \
              chromium-browser
@@ -142,14 +143,16 @@ set -o pipefail
 
         # Haskell IDE Engineのインストール
         # lsp-haskellとの相性の都合で、最新版ではなく0.13.0.0を使用する
+        HIEDIR=${HOME}/haskell-ide-engine
         (cd $HOME &&
-             git clone https://github.com/haskell/haskell-ide-engine.git &&
-             cd ${HOME}/haskell-ide-engine/ &&
+             ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine.git) &&
+             cd ${HIEDIR} && git checkout master && git pull &&
              git checkout -b tag-0.13.0.0 refs/tags/0.13.0.0
              stack install.hs hie-8.6.5 &&
              stack install.hs hie-8.6.4 &&
-             stack install.hs data &&
-             stack install cabal-install)
+             stack install.hs build-data &&
+             stack install cabal-install &&
+             git checkout master && git branch -r tag-0.13.0.0)
     }
 
 
