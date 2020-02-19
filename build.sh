@@ -29,6 +29,7 @@ set -o pipefail
         sudo apt-get update
         sudo apt-get -y upgrade
         sudo apt-get -y install \
+             jq \
              git \
              curl \
              unzip \
@@ -142,17 +143,17 @@ set -o pipefail
         curl -sSL https://get.haskellstack.org/ | sh 
 
         # Haskell IDE Engineのインストール
-        # lsp-haskellとの相性の都合で、最新版ではなく0.13.0.0を使用する
+        # lsp-haskellとの相性の都合で、最新版ではなく1.1を使用する
         HIEDIR=${HOME}/haskell-ide-engine
         (cd $HOME &&
              ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine.git) &&
              cd ${HIEDIR} && git checkout master && git pull &&
-             git checkout -b tag-0.13.0.0 refs/tags/0.13.0.0
+             git checkout -b tag-1.1 refs/tags/1.1
              stack install.hs hie-8.6.5 &&
              stack install.hs hie-8.6.4 &&
              stack install.hs build-data &&
              stack install cabal-install &&
-             git checkout master && git branch -r tag-0.13.0.0)
+             git checkout master && git branch -r tag-1.1)
     }
 
 

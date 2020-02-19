@@ -26,6 +26,7 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "develop"
 
     node.vm.network "private_network", ip: "192.168.23.1", virtualbox__intnet: "intnet", nic_type: "virtio"
+    node.vm.network "public_network", ip: "192.168.3.129", nic_type: "virtio"
 
     node.vm.provision "shell", path: "./build.sh", privileged: false
 
