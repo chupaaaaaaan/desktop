@@ -70,31 +70,6 @@ set -o pipefail
     }
 
 
-: Nixのインストール ||
-    {
-        # Nixのインストール
-        sh <(curl https://nixos.org/nix/install) --no-daemon
-
-        # Nix用プロファイルの作成
-        : > $HOME/.bash_profile.d/nix
-        echo 'if [ -e /home/vagrant/.nix-profile/etc/profile.d/nix.sh ]; then . /home/vagrant/.nix-profile/etc/profile.d/nix.sh; fi' >> $HOME/.bash_profile.d/nix
-
-        # Nix設定のロード
-        . /home/vagrant/.nix-profile/etc/profile.d/nix.sh
-
-        # channelの追加
-        nix-channel --add https://nixos.org/channels/nixos-unstable nixos
-        nix-channel --add https://nixos.org/channels/nixos-19.09 nixos-19-09
-
-        # すべてのchannelのアップデート
-        nix-channel --update
-
-        # Cachixのインストール
-        nix-env -iA cachix -f https://cachix.org/api/v1/install
-
-    }
-
-
 : Terraformインストール ||
     {
         # pip3のインストール
@@ -111,49 +86,21 @@ set -o pipefail
     }
 
 
-: Haskellインストール_nix使用 ||
-    {
-        # 必要なパッケージのインストール(gloss用にfreeglut含む)
-        sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev freeglut3-dev
-
-        # haskell stack/cabalのインストール
-
-        nix-env -iPA \
-                nixpkgs.stack \
-                nixpkgs.cabal-install
-
-        # haskell ghcのインストール（新しいバージョンの優先度を高くしておく）
-        nix-env -iPA nixos.haskell.compiler.ghc865
-        nix-env --set-flag priority 4 ghc-8.6.5
-        nix-env -iPA nixos-19-09.haskell.compiler.ghc864
-
-        # Haskell IDE Engineのインストール
-        cachix use all-hies
-        nix-env -iA selection --arg selector 'p: { inherit (p) ghc864 ghc865; }' -f https://github.com/infinisil/all-hies/tarball/master
-    }
-
-
 : Haskellインストール_stack使用 ||
     {
         # 必要なパッケージのインストール(gloss用にfreeglut含む)
-        sudo apt-get -y install libicu-dev libtinfo-dev libgmp-dev freeglut3-dev
+        sudo apt-get -y install freeglut3-dev
 
         # haskell stack/cabalのインストール
         sudo rm /usr/local/bin/stack -rf &&
-        curl -sSL https://get.haskellstack.org/ | sh 
+            curl -sSL https://get.haskellstack.org/ | sh &&
+            stack setup
 
-        # Haskell IDE Engineのインストール
-        # lsp-haskellとの相性の都合で、最新版ではなく1.1を使用する
-        HIEDIR=${HOME}/haskell-ide-engine
-        (cd $HOME &&
-             ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine.git) &&
-             cd ${HIEDIR} && git checkout master && git pull &&
-             git checkout -b tag-1.1 refs/tags/1.1
-             stack install.hs hie-8.6.5 &&
-             stack install.hs hie-8.6.4 &&
-             stack install.hs build-data &&
-             stack install cabal-install &&
-             git checkout master && git branch -r tag-1.1)
+        # haskell-modeに必要なアプリのインストール
+        echo cabal-install \
+             hasktags \
+             hlint \
+             stylish-haskell | xargs -d' ' -n1 -i stack install {}
     }
 
 
