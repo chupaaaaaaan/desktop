@@ -46,10 +46,11 @@ set -o pipefail
         curl -sSL https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg | sudo apt-key add -
         curl -sSL https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg | sudo apt-key add -
         sudo curl -sSL -o /etc/apt/sources.list.d/ubuntu-ja.list https://www.ubuntulinux.jp/sources.list.d/bionic.list
+        sudo apt-get update
         sudo apt-get -y install emacs26
 
         # firefox, thunderbirdは不要なので削除
-        sudo apt-get -y purge firefox thunderbird
+        sudo apt-get -y purge firefox
 
         # aptで入らないパッケージのインストール
         sudo snap install discord
