@@ -89,8 +89,10 @@ set -o pipefail
 
 : Haskellインストール_stack使用 ||
     {
-        # 必要なパッケージのインストール(gloss用にfreeglut含む)
-        sudo apt-get -y install freeglut3-dev
+        # 必要なパッケージのインストール
+        sudo apt-get -y install \
+             freeglut3-dev \
+             libcurl4-openssl-dev
 
         # haskell stack/cabalのインストール
         sudo rm /usr/local/bin/stack -rf &&
