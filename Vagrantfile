@@ -8,8 +8,8 @@ Vagrant.configure(2) do |config|
   config.vm.define "nodeV1" do |node|
     node.vm.provider "virtualbox" do |vb|
       vb.name    = "develop"
-      vb.cpus    = 2
-      vb.memory  = 8192
+      vb.cpus    = 3
+      vb.memory  = 10240
       vb.gui     = true
       vb.customize [ "modifyvm"              , :id,
                      "--natdnsproxy1"        , "on",
@@ -28,6 +28,7 @@ Vagrant.configure(2) do |config|
     # node.vm.network "private_network", ip: "192.168.23.1", virtualbox__intnet: "intnet", nic_type: "virtio"
     node.vm.network "public_network", ip: "192.168.3.129", nic_type: "virtio"
 
+    node.vm.provision "shell", path: "./swap.sh", args: ['10240']
     node.vm.provision "shell", path: "./build.sh", privileged: false
 
     node.vm.synced_folder "#{ENV['HOMEPATH']}\\Dropbox"                 , "/home/vagrant/Dropbox", mount_options: ['dmode=755','fmode=644']
