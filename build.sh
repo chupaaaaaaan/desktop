@@ -87,7 +87,7 @@ set -o pipefail
     }
 
 
-: Haskellインストール_stack使用 ||
+: Haskellインストール_stack ||
     {
         # 必要なパッケージのインストール
         sudo apt-get -y install \
@@ -98,7 +98,10 @@ set -o pipefail
         sudo rm /usr/local/bin/stack -rf &&
             curl -sSL https://get.haskellstack.org/ | sh &&
             stack setup
+    }
 
+: Haskellインストール_HIE不使用（haskell-modeのみ） ||
+    {
         # haskell-modeに必要なアプリのインストール
         echo cabal-install \
              hasktags \
@@ -106,6 +109,17 @@ set -o pipefail
              stylish-haskell | xargs -d' ' -n1 -i stack install {}
     }
 
+: Haskellインストール_HIE ||
+    {
+        HIEDIR=${HOME}/haskell-ide-engine
+        (cd $HOME &&
+             ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules) &&
+             cd ${HIEDIR} &&
+             git fetch &&
+             git checkout 1.4 &&
+             stack install.hs hie &&
+             stack install cabal-install)
+    }
 
 : Node.js設定 ||
     {
