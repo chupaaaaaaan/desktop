@@ -1,14 +1,14 @@
 # coding: utf-8
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "ubuntu/focal64"
 
   config.disksize.size = '256GB'
 
   config.vm.define "nodeV1" do |node|
     node.vm.provider "virtualbox" do |vb|
       vb.name    = "develop"
-      vb.cpus    = 3
+      vb.cpus    = 2
       vb.memory  = 10240
       vb.gui     = true
       vb.customize [ "modifyvm"              , :id,
@@ -33,7 +33,7 @@ Vagrant.configure(2) do |config|
 
     node.vm.synced_folder "#{ENV['HOMEPATH']}\\Dropbox"                 , "/home/vagrant/Dropbox", mount_options: ['dmode=755','fmode=644']
     node.vm.synced_folder "#{ENV['HOMEPATH']}\\Documents\\Sync\\vagrant", "/vagrant"             , mount_options: ['dmode=755','fmode=644']
-    node.vm.synced_folder "#{ENV['HOMEPATH']}\\Documents\\Sync\\project", "/home/vagrant/project", mount_options: ['dmode=755','fmode=755']
+    # node.vm.synced_folder "#{ENV['HOMEPATH']}\\Documents\\Sync\\project", "/home/vagrant/project", mount_options: ['dmode=755','fmode=755']
   end
 
 end

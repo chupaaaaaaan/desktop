@@ -25,34 +25,35 @@ set -o pipefail
     {
         wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add -
         wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add -
-        sudo wget https://www.ubuntulinux.jp/sources.list.d/bionic.list -O /etc/apt/sources.list.d/ubuntu-ja.list
+        sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
         sudo apt-get update
         sudo apt-get -y upgrade
+        sudo apt-get -y dist-upgrade
         sudo apt-get -y install \
              jq \
              git \
              curl \
              unzip \
              tzdata \
-             ubuntu-desktop \
+             fonts-takao \
              bash-completion \
              ubuntu-defaults-ja \
-             fonts-ricty-diminished \
-             chromium-browser
+             ubuntu-desktop-minimal \
+             fonts-ricty-diminished
         # ifupdown
 
         # emacs26のインストール
-        sudo add-apt-repository -y ppa:kelleyk/emacs
-        curl -sSL https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg | sudo apt-key add -
-        curl -sSL https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg | sudo apt-key add -
-        sudo curl -sSL -o /etc/apt/sources.list.d/ubuntu-ja.list https://www.ubuntulinux.jp/sources.list.d/bionic.list
-        sudo apt-get update
-        sudo apt-get -y install emacs26
+        # 20.04からは標準で提供されているっぽいので、リポジトリ追加は不要。
+        # sudo add-apt-repository -y ppa:kelleyk/emacs
+        # sudo apt-get update
+        # sudo apt-get -y install emacs26
+        sudo apt-get -y install emacs
 
         # firefox, thunderbirdは不要なので削除
         sudo apt-get -y purge firefox
 
         # aptで入らないパッケージのインストール
+        sudo snap install chromium
         sudo snap install discord
         sudo snap install slack --classic
     }
@@ -98,28 +99,34 @@ set -o pipefail
         sudo rm /usr/local/bin/stack -rf &&
             curl -sSL https://get.haskellstack.org/ | sh &&
             stack setup
+
+        : Haskellインストール_HIE不使用（haskell-modeのみ） ||
+            {
+                # haskell-modeに必要なアプリのインストール
+                echo cabal-install hasktags hlint stylish-haskell |
+                    xargs -d' ' -n1 -i stack install {}
+            }
+
+        : Haskellインストール_HIE ||
+            {
+                sudo apt-get -y install \
+                     libicu-dev \
+                     libncurses-dev \
+                     libgmp-dev \
+                     zlib1g-dev
+                # stack install cabal-install
+                HIEDIR=${HOME}/haskell-ide-engine
+                (cd $HOME &&
+                     ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules) &&
+                     cd ${HIEDIR} &&
+                     git fetch &&
+                     git checkout 1.4 &&
+                     stack install.hs hie-8.8.3 &&
+                     stack install.hs hie-8.6.5 &&
+                     stack install.hs data)
+            }
     }
 
-: Haskellインストール_HIE不使用（haskell-modeのみ） ||
-    {
-        # haskell-modeに必要なアプリのインストール
-        echo cabal-install \
-             hasktags \
-             hlint \
-             stylish-haskell | xargs -d' ' -n1 -i stack install {}
-    }
-
-: Haskellインストール_HIE ||
-    {
-        HIEDIR=${HOME}/haskell-ide-engine
-        (cd $HOME &&
-             ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules) &&
-             cd ${HIEDIR} &&
-             git fetch &&
-             git checkout 1.4 &&
-             stack install.hs hie &&
-             stack install cabal-install)
-    }
 
 : Node.js設定 ||
     {
@@ -168,5 +175,5 @@ set -o pipefail
 # 不要パッケージの削除
 sudo apt-get -y autoremove
 
-# dotfilesのreset
+# dotfilesのreset (勝手に.bashrcなどを書き換えてしまうものがあるため)
 cd $HOME/dotfiles && git reset --hard
