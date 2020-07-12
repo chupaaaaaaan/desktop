@@ -55,7 +55,13 @@ set -o pipefail
         # aptで入らないパッケージのインストール
         sudo snap install chromium
         sudo snap install discord
-        sudo snap install slack --classic
+
+        # ソフトウェアセンターからインストールすると日本語入力できな問題があるので、debパッケージから直接インストールする。
+        #sudo snap install slack --classic
+        SLACK_VERSION=4.7.0 &&
+            curl -sSLO https://downloads.slack-edge.com/linux_releases/slack-desktop-${SLACK_VERSION}-amd64.deb &&
+            sudo dpkg -i slack-desktop-${SLACK_VERSION}-amd64.deb &&
+            rm -f slack-desktop-${SLACK_VERSION}-amd64.deb
     }
 
 
