@@ -102,15 +102,55 @@ set -o pipefail
              libcurl4-openssl-dev
 
         # haskell stack/cabalのインストール
+        # よく使うライブラリも入れておく(AtCoder用含む)
         sudo rm /usr/local/bin/stack -rf &&
             curl -sSL https://get.haskellstack.org/ | sh &&
-            stack setup
+            stack setup &&
+            stack build \
+                  unicode-show \
+                  QuickCheck \
+                  array \
+                  attoparsec \
+                  bytestring \
+                  containers \
+                  deepseq \
+                  extra \
+                  fgl \
+                  hashable \
+                  heaps \
+                  integer-logarithms \
+                  lens \
+                  massiv \
+                  mono-traversable \
+                  mtl \
+                  mutable-containers \
+                  mwc-random \
+                  parallel \
+                  parsec \
+                  primitive \
+                  psqueues \
+                  random \
+                  reflection \
+                  repa \
+                  template-haskell \
+                  text \
+                  tf-random \
+                  transformers \
+                  unboxing-vector \
+                  unordered-containers \
+                  utility-ht \
+                  vector \
+                  vector-algorithms \
+                  vector-th-unbox
 
         : Haskellインストール_HIE不使用（haskell-modeのみ） ||
             {
                 # haskell-modeに必要なアプリのインストール
-                echo cabal-install hasktags hlint stylish-haskell |
-                    xargs -d' ' -n1 -i stack install {}
+                stack install \
+                      # cabal-install \
+                      # hasktags \
+                      hlint \
+                      stylish-haskell
             }
 
         : Haskellインストール_HIE ||
