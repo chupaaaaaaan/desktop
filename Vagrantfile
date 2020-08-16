@@ -11,22 +11,23 @@ Vagrant.configure(2) do |config|
       vb.cpus    = 2
       vb.memory  = 10240
       vb.gui     = true
-      vb.customize [ "modifyvm"              , :id,
-                     "--natdnsproxy1"        , "on",
-                     "--natdnshostresolver1" , "on",
-                     "--nic1"                , "nat",
-                     "--nictype1"            , "virtio",
-                     "--vram"                , "256",
-                     "--clipboard"           , "bidirectional",
-                     "--draganddrop"         , "bidirectional",
-                     "--ioapic"              , "on"
-                   ]
+      vb.customize [ "modifyvm", :id, "--natdnsproxy1", "on" ]
+      vb.customize [ "modifyvm", :id, "--natdnshostresolver1", "on" ]
+      vb.customize [ "modifyvm", :id, "--nic1", "nat" ]
+      vb.customize [ "modifyvm", :id, "--nictype1", "virtio" ]
+      vb.customize [ "modifyvm", :id, "--vram", "256" ]
+      vb.customize [ "modifyvm", :id, "--clipboard", "bidirectional" ]
+      vb.customize [ "modifyvm", :id, "--draganddrop", "bidirectional" ]
+      vb.customize [ "modifyvm", :id, "--ioapic", "on" ]
+      vb.customize [ "modifyvm", :id, "--uart1", "0x3F8", "4" ]
+      vb.customize [ "modifyvm", :id, "--uartmode1", "file", File::NULL ]
     end
 
     node.vm.hostname = "develop"
 
     # node.vm.network "private_network", ip: "192.168.23.1", virtualbox__intnet: "intnet", nic_type: "virtio"
     node.vm.network "public_network", ip: "192.168.3.129", nic_type: "virtio"
+    node.vm.network "private_network", ip: "192.168.56.201", nic_type: "virtio"
 
     node.vm.provision "shell", path: "./swap.sh", args: ['10240']
     node.vm.provision "shell", path: "./build.sh", privileged: false

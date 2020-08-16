@@ -50,11 +50,12 @@ set -o pipefail
         sudo apt-get -y install emacs
 
         # firefox, thunderbirdは不要なので削除
-        sudo apt-get -y purge firefox
+        sudo apt-get -y purge firefox thunderbird
 
         # aptで入らないパッケージのインストール
         sudo snap install chromium
         sudo snap install discord
+        sudo snap install libreoffice
 
         # ソフトウェアセンターからインストールすると日本語入力できな問題があるので、debパッケージから直接インストールする。
         #sudo snap install slack --classic
@@ -147,10 +148,10 @@ set -o pipefail
             {
                 # haskell-modeに必要なアプリのインストール
                 stack install \
-                      # cabal-install \
-                      # hasktags \
                       hlint \
                       stylish-haskell
+                      # cabal-install \
+                      # hasktags \
             }
 
         : Haskellインストール_HIE ||
