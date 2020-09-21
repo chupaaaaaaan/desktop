@@ -144,6 +144,9 @@ set -o pipefail
                   vector-algorithms \
                   vector-th-unbox
 
+        : > $HOME/.bashrc.d/stack
+        echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+
         : Haskellインストール_HIE不使用（haskell-modeのみ） ||
             {
                 # haskell-modeに必要なアプリのインストール
