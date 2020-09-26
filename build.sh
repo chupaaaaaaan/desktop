@@ -95,85 +95,100 @@ set -o pipefail
     }
 
 
-: Haskellインストール_stack ||
+: Haskellインストール ||
     {
         # 必要なパッケージのインストール
         sudo apt-get -y install \
+             build-essential \
+             libffi-dev \
+             libffi7 \
+             libgmp-dev \
+             libgmp10 \
+             libncurses-dev \
+             libncurses5 \
+             libtinfo6 \
              freeglut3-dev \
              libcurl4-openssl-dev
 
-        # haskell stack/cabalのインストール
-        # よく使うライブラリも入れておく(AtCoder用含む)
-        sudo rm /usr/local/bin/stack -rf &&
-            curl -sSL https://get.haskellstack.org/ | sh &&
-            stack setup &&
-            stack build \
-                  unicode-show \
-                  QuickCheck \
-                  array \
-                  attoparsec \
-                  bytestring \
-                  containers \
-                  deepseq \
-                  extra \
-                  fgl \
-                  hashable \
-                  heaps \
-                  integer-logarithms \
-                  lens \
-                  massiv \
-                  mono-traversable \
-                  mtl \
-                  mutable-containers \
-                  mwc-random \
-                  parallel \
-                  parsec \
-                  primitive \
-                  psqueues \
-                  random \
-                  reflection \
-                  repa \
-                  template-haskell \
-                  text \
-                  tf-random \
-                  transformers \
-                  unboxing-vector \
-                  unordered-containers \
-                  utility-ht \
-                  vector \
-                  vector-algorithms \
-                  vector-th-unbox
+        # ghcupのインストール
+        export BOOTSTRAP_HASKELL_NONINTERACTIVE=1
+        curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+        . $HOME/.ghcup/env
 
-        : > $HOME/.bashrc.d/stack
-        echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+        : > $HOME/.bash_profile.d/ghcup
+	echo '[ -f "$HOME/.ghcup/env" ] && \. $HOME/.ghcup/env'  >> $HOME/.bash_profile.d/ghcup
 
-        : Haskellインストール_HIE不使用（haskell-modeのみ） ||
+        # ghcupにより、ghcをインストール
+        ghcup install ghc 8.8.4
+        ghcup install ghc 8.8.3
+        ghcup install ghc 8.8.2
+        ghcup install ghc 8.6.5
+        ghcup install ghc 8.6.4
+
+        # ghcupにより、haskell-language-serverをインストール
+        ghcup install hls latest
+
+        # パッケージインストール
+        # よく使うライブラリを入れておく(AtCoder用含む)
+        : Haskellインストール_パッケージ ||
             {
-                # haskell-modeに必要なアプリのインストール
-                stack install \
+                cabal update
+
+                cabal install \
+                      hakyll \
                       hlint \
                       stylish-haskell
-                      # cabal-install \
-                      # hasktags \
+
+                cabal install --lib \
+                      unicode-show
+
+                # AtCoder用
+                cabal install --lib \
+                      QuickCheck-2.13.2 \
+                      array-0.5.4.0 \
+                      attoparsec-0.13.2.3 \
+                      bytestring-0.10.10.0 \
+                      containers-0.6.2.1 \
+                      deepseq-1.4.4.0 \
+                      extra-1.7.1 \
+                      fgl-5.7.0.2 \
+                      hashable-1.3.0.0 \
+                      heaps-0.3.6.1 \
+                      integer-logarithms-1.0.3 \
+                      lens-4.19.1 \
+                      massiv-0.5.1.0 \
+                      mono-traversable-1.0.15.1 \
+                      mtl-2.2.2 \
+                      mutable-containers-0.3.4 \
+                      mwc-random-0.14.0.0 \
+                      parallel-3.2.2.0 \
+                      parsec-3.1.14.0 \
+                      primitive-0.7.0.1 \
+                      psqueues-0.2.7.2 \
+                      random-1.1 \
+                      reflection-2.1.5 \
+                      repa-3.4.1.4 \
+                      template-haskell-2.15.0.0 \
+                      text-1.2.4.0 \
+                      tf-random-0.5 \
+                      transformers-0.5.6.2 \
+                      unboxing-vector-0.1.1.0 \
+                      unordered-containers-0.2.10.0 \
+                      utility-ht-0.0.15 \
+                      vector-0.12.1.2 \
+                      vector-algorithms-0.8.0.3 \
+                      vector-th-unbox-0.2.1.7
             }
 
-        : Haskellインストール_HIE ||
+        : Haskellインストール_stack || 
             {
-                sudo apt-get -y install \
-                     libicu-dev \
-                     libncurses-dev \
-                     libgmp-dev \
-                     zlib1g-dev
-                # stack install cabal-install
-                HIEDIR=${HOME}/haskell-ide-engine
-                (cd $HOME &&
-                     ([ -d "${HIEDIR}" ] || git clone https://github.com/haskell/haskell-ide-engine --recurse-submodules) &&
-                     cd ${HIEDIR} &&
-                     git fetch &&
-                     git checkout 1.4 &&
-                     stack install.hs hie-8.8.3 &&
-                     stack install.hs hie-8.6.5 &&
-                     stack install.hs data)
+                sudo rm /usr/local/bin/stack -rf &&
+                    curl -sSL https://get.haskellstack.org/ | sh &&
+                    stack config set system-ghc --global true &&
+                    stack setup
+
+                : > $HOME/.bashrc.d/stack
+                echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
             }
     }
 
