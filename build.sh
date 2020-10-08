@@ -144,7 +144,8 @@ set -o pipefail
         # ライブラリのインストール
         ghcup set ghc 8.8.4
         cabal install --lib \
-              unicode-show
+              unicode-show \
+              implicit-hie
 
         # ライブラリのインストール (AtCoder用)
         ghcup set ghc 8.8.3
