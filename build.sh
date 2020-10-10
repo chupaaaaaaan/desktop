@@ -35,11 +35,8 @@ set -o pipefail
              curl \
              unzip \
              tzdata \
-             fonts-takao \
              bash-completion \
-             ubuntu-defaults-ja \
-             ubuntu-desktop-minimal \
-             fonts-ricty-diminished
+             ubuntu-defaults-ja
         # ifupdown
 
         # emacs26のインストール
@@ -48,19 +45,6 @@ set -o pipefail
         # sudo apt-get update
         # sudo apt-get -y install emacs26
         sudo apt-get -y install emacs
-
-        # firefox, thunderbirdは不要なので削除
-        #sudo apt-get -y purge firefox thunderbird
-
-        # aptで入らないパッケージのインストール
-        sudo snap install chromium
-        sudo snap install discord
-        sudo snap install libreoffice
-
-        # ソフトウェアセンターからインストールすると日本語入力できない問題があるので、debパッケージから直接インストールする。
-        #snap install slack --classic
-        curl -sSL -o /tmp/slack.deb https://downloads.slack-edge.com/linux_releases/slack-desktop-4.7.0-amd64.deb
-        sudo dpkg -i /tmp/slack.deb
     }
 
 
@@ -121,82 +105,84 @@ set -o pipefail
         # ghcupにより、ghcをインストール
         ghcup install ghc 8.8.4
         ghcup install ghc 8.8.3
-        ghcup install ghc 8.8.2
-        ghcup install ghc 8.6.5
-        ghcup install ghc 8.6.4
+        # ghcup install ghc 8.8.2
+        # ghcup install ghc 8.6.5
+        # ghcup install ghc 8.6.4
 
         # ghcupにより、haskell-language-serverをインストール
         ghcup install hls latest
-    }
 
 
-: Haskellインストール_パッケージ ||
-    {
-        cabal update
+        : Stackインストール ||
+            {
+                sudo rm /usr/local/bin/stack -f
+                curl -sSL https://get.haskellstack.org/ | sh
+                stack config set system-ghc --global true
+                stack setup
 
-        # アプリケーションのインストール
-        ghcup set ghc 8.8.4
-        cabal install --overwrite-policy=always \
-              hakyll \
-              hlint \
-              stylish-haskell
+                : > $HOME/.bashrc.d/stack
+                echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+            }
 
-        # ライブラリのインストール
-        ghcup set ghc 8.8.4
-        cabal install --lib \
-              unicode-show \
-              implicit-hie
 
-        # ライブラリのインストール (AtCoder用)
-        ghcup set ghc 8.8.3
-        cabal install --lib \
-              QuickCheck-2.13.2 \
-              array-0.5.4.0 \
-              attoparsec-0.13.2.3 \
-              bytestring-0.10.10.0 \
-              containers-0.6.2.1 \
-              deepseq-1.4.4.0 \
-              extra-1.7.1 \
-              fgl-5.7.0.2 \
-              hashable-1.3.0.0 \
-              heaps-0.3.6.1 \
-              integer-logarithms-1.0.3 \
-              lens-4.19.1 \
-              massiv-0.5.1.0 \
-              mono-traversable-1.0.15.1 \
-              mtl-2.2.2 \
-              mutable-containers-0.3.4 \
-              mwc-random-0.14.0.0 \
-              parallel-3.2.2.0 \
-              parsec-3.1.14.0 \
-              primitive-0.7.0.1 \
-              psqueues-0.2.7.2 \
-              random-1.1 \
-              reflection-2.1.5 \
-              repa-3.4.1.4 \
-              template-haskell-2.15.0.0 \
-              text-1.2.4.0 \
-              tf-random-0.5 \
-              transformers-0.5.6.2 \
-              unboxing-vector-0.1.1.0 \
-              unordered-containers-0.2.10.0 \
-              utility-ht-0.0.15 \
-              vector-0.12.1.2 \
-              vector-algorithms-0.8.0.3 \
-              vector-th-unbox-0.2.1.7
+        : アプリ・ライブラリのインストール ||
+            {
+                cabal update
 
-        ghcup set ghc 8.8.4
-    }
+                # アプリケーションのインストール
+                ghcup set ghc 8.8.4
+                cabal install --overwrite-policy=always \
+                      hakyll \
+                      implicit-hie
 
-: Haskellインストール_stack ||
-    {
-        sudo rm /usr/local/bin/stack -f
-        curl -sSL https://get.haskellstack.org/ | sh
-        stack config set system-ghc --global true
-        stack setup
+                # ライブラリのインストール
+                cabal install --lib \
+                      unicode-show
+            }
 
-        : > $HOME/.bashrc.d/stack
-        echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+
+        : ライブラリのインストール_Atcoder用 ||
+            {
+                ghcup set ghc 8.8.3
+
+                cabal install --lib \
+                      QuickCheck-2.13.2 \
+                      array-0.5.4.0 \
+                      attoparsec-0.13.2.3 \
+                      bytestring-0.10.10.0 \
+                      containers-0.6.2.1 \
+                      deepseq-1.4.4.0 \
+                      extra-1.7.1 \
+                      fgl-5.7.0.2 \
+                      hashable-1.3.0.0 \
+                      heaps-0.3.6.1 \
+                      integer-logarithms-1.0.3 \
+                      lens-4.19.1 \
+                      massiv-0.5.1.0 \
+                      mono-traversable-1.0.15.1 \
+                      mtl-2.2.2 \
+                      mutable-containers-0.3.4 \
+                      mwc-random-0.14.0.0 \
+                      parallel-3.2.2.0 \
+                      parsec-3.1.14.0 \
+                      primitive-0.7.0.1 \
+                      psqueues-0.2.7.2 \
+                      random-1.1 \
+                      reflection-2.1.5 \
+                      repa-3.4.1.4 \
+                      template-haskell-2.15.0.0 \
+                      text-1.2.4.0 \
+                      tf-random-0.5 \
+                      transformers-0.5.6.2 \
+                      unboxing-vector-0.1.1.0 \
+                      unordered-containers-0.2.10.0 \
+                      utility-ht-0.0.15 \
+                      vector-0.12.1.2 \
+                      vector-algorithms-0.8.0.3 \
+                      vector-th-unbox-0.2.1.7
+
+                ghcup set ghc 8.8.4
+            }
     }
 
 
@@ -219,18 +205,18 @@ set -o pipefail
         echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node
 
         npm config set -g user root
-    }
 
 
-: Elmインストール ||
-    {
-        npm install -g \
-            http-server \
-            elm \
-            elm-format \
-            elm-oracle \
-            elm-test \
-            @elm-tooling/elm-language-server
+        : Elmインストール ||
+            {
+                npm install -g \
+                    http-server \
+                    elm \
+                    elm-format \
+                    elm-oracle \
+                    elm-test \
+                    @elm-tooling/elm-language-server
+            }
     }
 
 
@@ -247,9 +233,28 @@ set -o pipefail
     }
 
 
-: IntelliJ IDEAインストール ||
+: デスクトップ環境のインストール ||
     {
+        # フォント、デスクトップ環境のインストール
+        sudo apt-get update
+        sudo apt-get -y install \
+             fonts-takao \
+             fonts-ricty-diminished \
+             ubuntu-desktop-minimal
+
+        # firefox, thunderbirdは不要なので削除
+        #sudo apt-get -y purge firefox thunderbird
+
+        # aptで入らないデスクトップアプリのインストール
+        sudo snap install chromium
+        sudo snap install discord
+        sudo snap install libreoffice
         sudo snap install intellij-idea-community --classic
+
+        # ソフトウェアセンターからインストールすると日本語入力できない問題があるので、debパッケージから直接インストールする。
+        #snap install slack --classic
+        curl -sSL -o /tmp/slack.deb https://downloads.slack-edge.com/linux_releases/slack-desktop-4.7.0-amd64.deb
+        sudo dpkg -i /tmp/slack.deb
     }
 
 
