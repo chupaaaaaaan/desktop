@@ -197,10 +197,8 @@ set -o pipefail
         nvm install stable
         nvm alias default stable
 
-        : > $HOME/.bash_profile.d/node
         : > $HOME/.bashrc.d/node
-        echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bash_profile.d/node
-        echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bash_profile.d/node
+        echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node
         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bashrc.d/node
         echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node
 
@@ -226,10 +224,10 @@ set -o pipefail
              openjdk-11-jdk \
              maven
 
-        : > $HOME/.bash_profile.d/jdk
-        echo '# export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'
-        echo '# export JAVA_HOME=`/usr/libexec/java_home -v 11`'
-        echo 'export JAVA_HOME=$(echo $(readlink -f /usr/bin/javac) | sed -e "s:/bin/javac::")' >> $HOME/.bash_profile.d/jdk
+        : > $HOME/.bashrc.d/jdk
+        echo '# export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'                               >> $HOME/.bashrc.d/jdk
+        echo '# export JAVA_HOME=`/usr/libexec/java_home -v 11`'                                >> $HOME/.bashrc.d/jdk
+        echo 'export JAVA_HOME=$(echo $(readlink -f /usr/bin/javac) | sed -e "s:/bin/javac::")' >> $HOME/.bashrc.d/jdk
     }
 
 
