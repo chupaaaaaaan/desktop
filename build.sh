@@ -13,6 +13,9 @@ set -o pipefail
         mkdir -p $HOME/.bash_profile.d
         mkdir -p $HOME/.bashrc.d
 
+    }
+: 地域設定 ||
+    {
         # タイムゾーンの設定
         sudo timedatectl set-timezone Asia/Tokyo
 
@@ -21,11 +24,19 @@ set -o pipefail
     }
 
 
-: 必要なパッケージのインストール（各ソフトウェアで必要なパッケージは、ソフトウェアインストール時に導入） ||
+: 日本語環境 ||
     {
         wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add -
         wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add -
         sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
+        sudo apt-get update
+        sudo apt-get -y install ubuntu-defaults-ja
+    }
+
+
+
+: 必要なパッケージのインストール（各ソフトウェアで必要なパッケージは、ソフトウェアインストール時に導入） ||
+    {
         sudo apt-get update
         sudo apt-get -y upgrade
         sudo apt-get -y dist-upgrade
@@ -35,8 +46,7 @@ set -o pipefail
              curl \
              unzip \
              tzdata \
-             bash-completion \
-             ubuntu-defaults-ja
+             bash-completion
         # ifupdown
 
         # emacs26のインストール
