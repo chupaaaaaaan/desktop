@@ -63,7 +63,7 @@ set -o pipefail
         if [ -d "$HOME/dotfiles" ]; then
             ( cd $HOME/dotfiles && git pull )
         else
-            git clone https://github.com/chupaaaaaaan/dotfiles.git
+            ( cd $HOME && git clone https://github.com/chupaaaaaaan/dotfiles.git )
         fi
         $HOME/dotfiles/deploy.sh
 
@@ -94,6 +94,7 @@ set -o pipefail
         # 必要なパッケージのインストール
         sudo apt-get -y install \
              build-essential \
+             zlib1g-dev \
              libffi-dev \
              libffi7 \
              libgmp-dev \
