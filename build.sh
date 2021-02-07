@@ -244,15 +244,25 @@ set -o pipefail
         #sudo apt-get -y purge firefox thunderbird
 
         # aptで入らないデスクトップアプリのインストール
-        sudo snap install chromium
         sudo snap install discord
         sudo snap install libreoffice
-        sudo snap install intellij-idea-community --classic
+
+        # snapでインストールしたブラウザがデフォルトブラウザになっていると、JetBrains ToolboxのOAuthに失敗するみたいなので、debパッケージから直接インストールする。
+        # せっかくなのでchromiumからchromeに替える。
+        # 参考: https://toolbox-support.jetbrains.com/hc/en-us/community/posts/360004301099-Toolbox-Login-not-working-in-Linux
+        #sudo snap install chromium
+        curl -sSL -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i /tmp/google-chrome.deb
 
         # ソフトウェアセンターからインストールすると日本語入力できない問題があるので、debパッケージから直接インストールする。
         #snap install slack --classic
         curl -sSL -o /tmp/slack.deb https://downloads.slack-edge.com/linux_releases/slack-desktop-4.7.0-amd64.deb
         sudo dpkg -i /tmp/slack.deb
+
+        # JetBrains製品の管理はToolboxの使用が推奨されているので、snapによるインストールは使用しない。
+        #sudo snap install intellij-idea-community --classic
+        curl -sSL -o /tmp/jetbrains-toolbox.tar.gz https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.20.7940.tar.gz
+        ( cd /tmp && tar xzvf jetbrains-toolbox.tar.gz && $(find /tmp -type d -name "jetbrains-toolbox*" 2> /dev/null | head -n 1)/jetbrains-toolbox )
     }
 
 
