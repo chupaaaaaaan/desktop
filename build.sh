@@ -114,11 +114,9 @@ set -o pipefail
 	echo '[ -f "$HOME/.ghcup/env" ] && \. $HOME/.ghcup/env'  >> $HOME/.bash_profile.d/ghcup
 
         # ghcupにより、ghcをインストール
+        ghcup install ghc 8.10.4
         ghcup install ghc 8.8.4
         ghcup install ghc 8.8.3
-        # ghcup install ghc 8.8.2
-        # ghcup install ghc 8.6.5
-        # ghcup install ghc 8.6.4
 
         # ghcupにより、haskell-language-serverをインストール
         ghcup install hls latest
@@ -141,8 +139,9 @@ set -o pipefail
                 cabal update
 
                 # アプリケーションのインストール
-                ghcup set ghc 8.8.4
-                cabal install --overwrite-policy=always \
+                ghcup set ghc 8.10.4
+                # cabal install --overwrite-policy=always \
+                cabal install \
                       hakyll \
                       implicit-hie
 
@@ -199,9 +198,9 @@ set -o pipefail
 
 : Node.jsインストール ||
     {
-        export NVM_DIR=$HOME/.nvm
+        export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
         mkdir -p "$NVM_DIR"
-        curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+        curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash
         [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh
         [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion
 
