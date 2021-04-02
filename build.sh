@@ -83,7 +83,7 @@ set -o pipefail
 
 : Terraformインストール ||
     {
-        curl -sSL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.13.4/terraform_0.13.4_linux_amd64.zip
+        curl -sSL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip
         unzip -u -d /tmp /tmp/terraform.zip
         sudo mv -f /tmp/terraform /usr/local/bin/
     }
