@@ -106,21 +106,23 @@ set -o pipefail
              libcurl4-openssl-dev
 
         # ghcupのインストール
-        export BOOTSTRAP_HASKELL_NONINTERACTIVE=1
-        curl -sSL https://get-ghcup.haskell.org | sh
+        BOOTSTRAP_HASKELL_NONINTERACTIVE=1 curl -sSL https://get-ghcup.haskell.org | sh
         . $HOME/.ghcup/env
 
         : > $HOME/.bash_profile.d/ghcup
 	echo '[ -f "$HOME/.ghcup/env" ] && \. $HOME/.ghcup/env'  >> $HOME/.bash_profile.d/ghcup
 
         # ghcupにより、ghcをインストール
+        ghcup install ghc 9.0.1
         ghcup install ghc 8.10.4
         ghcup install ghc 8.8.4
         ghcup install ghc 8.8.3
+        ghcup install ghc 8.6.5
 
         # ghcupにより、haskell-language-serverをインストール
         ghcup install hls latest
 
+        cabal update
 
         : Stackインストール ||
             {
@@ -131,23 +133,6 @@ set -o pipefail
 
                 : > $HOME/.bashrc.d/stack
                 echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
-            }
-
-
-        : アプリ・ライブラリのインストール ||
-            {
-                cabal update
-
-                # アプリケーションのインストール
-                ghcup set ghc 8.10.4
-                # cabal install --overwrite-policy=always \
-                cabal install \
-                      hakyll \
-                      implicit-hie
-
-                # ライブラリのインストール
-                cabal install --lib \
-                      unicode-show
             }
 
 
@@ -190,8 +175,23 @@ set -o pipefail
                       vector-0.12.1.2 \
                       vector-algorithms-0.8.0.3 \
                       vector-th-unbox-0.2.1.7
+            }
 
-                ghcup set ghc 8.8.4
+        : アプリ・ライブラリのインストール ||
+            {
+                # アプリケーションのインストール
+                ghcup set ghc 8.10.4
+                # cabal install --overwrite-policy=always \
+                cabal install \
+                      hakyll \
+                      implicit-hie
+
+                # ライブラリのインストール
+                for v in '9.0.1' '8.10.4' '8.8.4' '8.8.3' '8.6.5'
+                do
+                    ghcup set ghc ${v}
+                    cabal install --lib unicode-show
+                done
             }
     }
 
@@ -256,6 +256,8 @@ set -o pipefail
         # aptで入らないデスクトップアプリのインストール
         sudo snap install discord
         sudo snap install libreoffice
+        sudo snap install todoist
+        sudo snap install drawio
 
         # snapでインストールしたブラウザがデフォルトブラウザになっていると、JetBrains ToolboxのOAuthに失敗するみたいなので、debパッケージから直接インストールする。
         # せっかくなのでchromiumからchromeに替える。
@@ -266,12 +268,12 @@ set -o pipefail
 
         # ソフトウェアセンターからインストールすると日本語入力できない問題があるので、debパッケージから直接インストールする。
         #snap install slack --classic
-        curl -sSL -o /tmp/slack.deb https://downloads.slack-edge.com/linux_releases/slack-desktop-4.7.0-amd64.deb
+        curl -sSL -o /tmp/slack.deb https://downloads.slack-edge.com/linux_releases/slack-desktop-4.15.0-amd64.deb
         sudo dpkg -i /tmp/slack.deb
 
         # JetBrains製品の管理はToolboxの使用が推奨されているので、snapによるインストールは使用しない。
         #sudo snap install intellij-idea-community --classic
-        curl -sSL -o /tmp/jetbrains-toolbox.tar.gz https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.20.7940.tar.gz
+        curl -sSL -o /tmp/jetbrains-toolbox.tar.gz https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.20.8352.tar.gz
         ( cd /tmp && tar xzvf jetbrains-toolbox.tar.gz && $(find /tmp -type d -name "jetbrains-toolbox*" 2> /dev/null | head -n 1)/jetbrains-toolbox )
     }
 
