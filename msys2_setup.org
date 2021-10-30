@@ -1,0 +1,39 @@
+** 準備
+
+   - MSYS2のインストール
+     https://www.msys2.org/
+
+   - シンボリックリンクの作成オプション
+     C:\msys64\msys2_shell.cmd
+     #+begin_src sh
+       rem set MSYS=winsymlinks:nativestrict
+       #=>
+       set MSYS=winsymlinks:nativestrict
+     #+end_src
+
+** パッケージインストール
+
+   #+begin_src sh
+     pacman -Syu
+     pacman -Su
+     pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+
+     pacman -S git
+     pacman -S unzip
+     pacman -S mingw-w64-x86_64-emacs
+     pacman -S mingw-w64-x86_64-gnupg
+     pacman -S mingw-w64-x86_64-jq
+   #+end_src
+
+
+** 環境セットアップ
+   #+begin_src sh
+     mkdir -p $HOME/bin
+     mkdir -p $HOME/.local/bin
+     mkdir -p $HOME/.local/share/applications/
+     mkdir -p $HOME/.bash_profile.d
+     mkdir -p $HOME/.bashrc.d
+
+     git clone https://github.com/chupaaaaaaan/dotfiles.git
+     $HOME/dotfiles/deploy.sh
+   #+end_src
