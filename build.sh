@@ -112,34 +112,21 @@ set -o pipefail
         : > $HOME/.bash_profile.d/ghcup
 	echo '[ -f "$HOME/.ghcup/env" ] && \. $HOME/.ghcup/env'  >> $HOME/.bash_profile.d/ghcup
 
-        # ghcupにより、ghcをインストール
-        ghcup install ghc 9.0.1
-        ghcup install ghc 8.10.4
-        ghcup install ghc 8.8.4
-        ghcup install ghc 8.8.3
-        ghcup install ghc 8.6.5
-
-        # ghcupにより、haskell-language-serverをインストール
+        # HLSインストール
         ghcup install hls latest
 
-        cabal update
+        # Stackインストール
+        ghcup install stack latest
+        stack config set system-ghc --global true
+        : > $HOME/.bashrc.d/stack
+        echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
 
-        : Stackインストール ||
+        : GHC 8.8.3環境のセットアップ （AtCoder用） ||
             {
-                sudo rm /usr/local/bin/stack -f
-                curl -sSL https://get.haskellstack.org/ | sh
-                stack config set system-ghc --global true
-                stack setup
-
-                : > $HOME/.bashrc.d/stack
-                echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
-            }
-
-
-        : ライブラリのインストール_Atcoder用 ||
-            {
+                ghcup install ghc 8.8.3
                 ghcup set ghc 8.8.3
 
+                cabal update
                 cabal install --lib \
                       QuickCheck-2.13.2 \
                       array-0.5.4.0 \
@@ -179,19 +166,13 @@ set -o pipefail
 
         : アプリ・ライブラリのインストール ||
             {
+                cabal update
                 # アプリケーションのインストール
-                ghcup set ghc 8.10.4
                 # cabal install --overwrite-policy=always \
-                cabal install \
-                      hakyll \
-                      implicit-hie
+                cabal install hakyll implicit-hie
 
                 # ライブラリのインストール
-                for v in '9.0.1' '8.10.4' '8.8.4' '8.8.3' '8.6.5'
-                do
-                    ghcup set ghc ${v}
-                    cabal install --lib unicode-show
-                done
+                cabal install --lib pretty-simple
             }
     }
 
