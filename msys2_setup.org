@@ -3,12 +3,22 @@
    - MSYS2のインストール
      https://www.msys2.org/
 
+   - ショートカットのオプションで、「管理者として実行」にチェックを入れる
+
    - シンボリックリンクの作成オプション
      C:\msys64\msys2_shell.cmd
      #+begin_src sh
        rem set MSYS=winsymlinks:nativestrict
        #=>
        set MSYS=winsymlinks:nativestrict
+     #+end_src
+
+   - PATH環境変数の継承オプション（Windows環境変数を継承）
+     C:\msys64\msys2_shell.cmd
+     #+begin_src sh
+       rem set MSYS2_PATH_TYPE=inherit
+       #=>
+       set MSYS2_PATH_TYPE=inherit
      #+end_src
 
 ** パッケージインストール
