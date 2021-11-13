@@ -47,3 +47,18 @@
      git clone https://github.com/chupaaaaaaan/dotfiles.git
      $HOME/dotfiles/deploy.sh
    #+end_src
+
+
+** ホームディレクトリの設定
+
+   - https://yanor.net/wiki/?Windows-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/MinGW-MSYS/MSYS2%E3%81%AEOpenSSH%E3%81%A7%E3%81%AE%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E6%89%B1%E3%81%84
+     #+begin_quote
+     Cygwin（およびその派生であるMSYS2）では/etc/nsswitch.confで以下のように指定すると、ホームディレクトリがWindowsのユーザプロファイルフォルダー（C:\Users\USERNAMEのような%USERPROFILE%）と同じになる。
+     または%Hでユーザプロファイルフォルダーを指定できるので、/%H/Dropbox/msys2 のようにユーザ名をハードコーディングせずに済む。
+     #+end_quote
+
+   - https://cygwin.com/cygwin-ug-net/ntsec.html#ntsec-mapping-passwdinfo
+
+     #+begin_src sh
+       db_home: windows cygwin desc
+     #+end_src
