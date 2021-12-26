@@ -33,7 +33,7 @@
      pacman -S mingw-w64-x86_64-emacs
      pacman -S mingw-w64-x86_64-gnupg
      pacman -S mingw-w64-x86_64-jq
-     mingw-w64-x86_64-librsync
+     pacman -S mingw-w64-x86_64-librsync
    #+end_src
 
 
