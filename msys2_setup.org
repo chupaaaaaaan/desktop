@@ -30,10 +30,10 @@
 
      pacman -S git
      pacman -S unzip
+     pacman -S rsync
      pacman -S mingw-w64-x86_64-emacs
      pacman -S mingw-w64-x86_64-gnupg
      pacman -S mingw-w64-x86_64-jq
-     pacman -S mingw-w64-x86_64-librsync
    #+end_src
 
 
