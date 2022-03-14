@@ -145,12 +145,12 @@ set -o pipefail
     {
         export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
         mkdir -p "$NVM_DIR"
-        curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash
+        curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
         [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh
         [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion
 
-        nvm install stable
-        nvm alias default stable
+        nvm install 'lts/*' --reinstall-packages-from=current
+        nvm alias default lts/gallium
 
         : > $HOME/.bashrc.d/node
         echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node
