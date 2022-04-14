@@ -36,19 +36,8 @@
      pacman -S mingw-w64-x86_64-jq
    #+end_src
 
-
-** 環境セットアップ
-   #+begin_src sh
-     mkdir -p $HOME/bin
-     mkdir -p $HOME/.local/bin
-     mkdir -p $HOME/.local/share/applications/
-     mkdir -p $HOME/.bash_profile.d
-     mkdir -p $HOME/.bashrc.d
-
-     git clone https://github.com/chupaaaaaaan/dotfiles.git
-     $HOME/dotfiles/deploy.sh
-   #+end_src
-
+*** パッケージグループ以外で明示的にインストールしたパッケージ一覧
+    pacman -Q -e | grep -v -f <(pacman -Q --group base-devel mingw-w64-x86_64-toolchain | cut -d' ' -f2)
 
 ** ホームディレクトリの設定
 
