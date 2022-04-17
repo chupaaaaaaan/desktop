@@ -131,5 +131,11 @@ EOF
          curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
      . ~/.ghcup/env &&
          : > ~/.bash_profile.d/ghcup &&
-         echo '[ -f "~/.ghcup/env" ] && \. "~/.ghcup/env"' > ~/.bash_profile.d/ghcup
+         echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' > ~/.bash_profile.d/ghcup
+   #+end_src
+
+** oj (competitive programming)
+   #+begin_src sh
+     sudo apt install python3-pip &&
+         pip3 install --user online-judge-tools
    #+end_src
