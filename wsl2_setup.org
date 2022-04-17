@@ -1,0 +1,106 @@
+* WSL2 - Ubuntu 20.04 setup
+
+** update & upgrade
+   #+begin_src sh
+     sudo apt update
+     sudo apt -y upgrade
+     sudo apt -y dist-upgrade
+   #+end_src
+  
+** locale (Japan)
+   #+begin_src sh
+     sudo apt update
+     sudo apt -y install language-pack-ja
+     sudo update-locale LANG=ja_JP.utf8
+   #+end_src
+
+*** man page
+    #+begin_src sh
+      sudo apt update
+      sudo apt -y install manpages-ja manpages-ja-dev
+    #+end_src
+
+** timezone (Asia/Tokyo)
+   #+begin_src sh
+     sudo ln -f -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+   #+end_src
+
+** Japanize
+   #+begin_src sh
+     wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add -
+     wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add -
+     sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list
+     sudo apt update
+     sudo apt -y install ubuntu-defaults-ja
+   #+end_src
+
+** fonts
+   #+begin_src sh
+     sudo apt update
+     sudo apt -y install fonts-ricty-diminished
+   #+end_src
+
+** commands
+   #+begin_src sh
+     sudo apt update
+     sudo apt -y install jq git curl unzip bash-completion
+   #+end_src
+   
+** Emacs 27
+   #+begin_src sh
+     sudo add-apt-repository -y ppa:kelleyk/emacs
+     sudo apt update
+     sudo apt -y install emacs27 emacs27-el
+   #+end_src
+
+** Dropbox
+   #+begin_src sh
+     curl -L https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf -
+     curl -L -o ~/.dropbox-dist/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py
+     chmod +x ~/.dropbox-dist/dropbox.py
+     ~/.dropbox-dist/dropbox.py autostart y
+     ~/.dropbox-dist/dropbox.py start
+     ~/.dropbox-dist/dropbox.py status #=> リンク実施
+     ln -s ~/Dropbox/org ~/org
+   #+end_src
+
+** ssh
+   #+begin_src sh
+     mkdir ~/.ssh
+     chmod 700 ~/.ssh
+     cp ~/Dropbox/clients/dotssh/* ~/.ssh
+     chmod 400 ~/.ssh/*.key
+   #+end_src
+
+** dotfiles
+   #+begin_src sh
+     # git clone github:chupaaaaaaan/dotfiles.git
+     # ~/dotfiles/deploy.bash
+     bash ~/Dropbox/dotfiles/deploy.bash
+   #+end_src
+
+** XServer/XClient
+   #+begin_src sh
+     : > ~/.bash_profile.d/display
+     cat <<EOF > ~/.bash_profile.d/display
+export DISPLAY=\$(ip r s | grep default | tr -s ' ' | cut -d' ' -f3):0.0
+
+command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
+(
+    cd '/mnt/c/Program Files/VcXsrv'
+    ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl > /dev/null 2>&1 &
+
+    if uname -v | grep -v -q 'Microsoft'; then
+        # When using xhost
+        WSLENV=DISPLAY ./xhost.exe + \$(ip -4 a s eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+        # # When using xauth
+        # ./xauth.exe generate \$DISPLAY . trusted timeout 0 # trusted にしないと clipboad 連携が機能しない
+        # ./xauth.exe extract - \$DISPLAY | xauth merge -
+    fi
+)
+
+EOF
+
+     # echo "export DISPLAY=\$(ip r s | grep default | tr -s ' ' | cut -d' ' -f3):0.0" >> ~/.bash_profile.d/display
+   #+end_src
