@@ -123,3 +123,12 @@ command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' ||
 
 EOF
    #+end_src
+
+** Ghcup
+   #+begin_src sh
+     sudo apt update &&
+         sudo apt -y install build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 &&
+         curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+     : > ~/.bash_profile.d/ghcup &&
+         echo '[ -f "~/.ghcup/env" ] && \. "~/.ghcup/env"' > ~/.bash_profile.d/ghcup
+   #+end_src
