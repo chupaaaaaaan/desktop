@@ -31,7 +31,7 @@
          wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add - &&
          sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
          sudo apt update &&
-         sudo apt -y install ubuntu-defaults-ja &&
+         sudo apt -y install ubuntu-defaults-ja
    #+end_src
 
 *** Input method
