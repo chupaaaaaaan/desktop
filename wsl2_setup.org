@@ -1,5 +1,21 @@
 * WSL2 - Ubuntu 20.04 setup
 
+** 事前準備
+   - [ ] VcXsrvのインストール
+     - https://sourceforge.net/projects/vcxsrv/
+   - [ ] (WSL2内)プロキシの設定
+     - /etc/apt/apt.conf
+       #+begin_src
+         Acquire::http::proxy "http://id:pass@proxysrv:port/";
+         Acquire::https::proxy "https://id:pass@proxysrv:port/";
+       #+end_src
+     - /etc/wgetrc
+       - proxyを検索して記載
+     - 環境変数
+       - export HTTP_PROXY
+       - export HTTPS_PROXY
+       - export NO_PROXY
+
 ** update & upgrade
    #+begin_src sh
      sudo apt update &&
@@ -14,11 +30,11 @@
          sudo update-locale LANG=ja_JP.utf8
    #+end_src
 
-*** man page
-    #+begin_src sh
-      sudo apt update &&
-          sudo apt -y install manpages-ja manpages-ja-dev
-    #+end_src
+** man page
+   #+begin_src sh
+     sudo apt update &&
+         sudo apt -y install manpages-ja manpages-ja-dev
+   #+end_src
 
 ** timezone (Asia/Tokyo)
    #+begin_src sh
@@ -33,24 +49,6 @@
          sudo apt update &&
          sudo apt -y install ubuntu-defaults-ja
    #+end_src
-
-*** Input method
-    #+begin_src sh
-      sudo apt update &&
-          sudo apt install -y fcitx-mozc &&
-          dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
-          im-config -n fcitx &&
-          cat << EOF > ~/.bash_profile.d/fcitx-mozc
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-export DefaultIMModule=fcitx
-if [ \$SHLVL = 1 ] ; then
-    fcitx-autostart > /dev/null 2>&1
-    xset -r 49  > /dev/null 2>&1
-fi
-EOF
-    #+end_src
 
 ** fonts
    #+begin_src sh
@@ -83,22 +81,40 @@ EOF
      ln -s ~/Dropbox/org ~/org
    #+end_src
 
-*** ssh
-    #+begin_src sh
-      mkdir ~/.ssh &&
-          chmod 700 ~/.ssh &&
-          cp ~/Dropbox/clients/dotssh/* ~/.ssh &&
-          chmod 400 ~/.ssh/*.key
-    #+end_src
+** ssh
+   #+begin_src sh
+     mkdir ~/.ssh &&
+         chmod 700 ~/.ssh &&
+         cp ~/Dropbox/clients/dotssh/* ~/.ssh &&
+         chmod 400 ~/.ssh/*.key
+   #+end_src
 
-*** dotfiles
-    #+begin_src sh
-      # git clone github:chupaaaaaaan/dotfiles.git
-      # ~/dotfiles/deploy.bash
-      bash ~/Dropbox/dotfiles/deploy.bash &&
-          rm -f ~/.profile &&
-          ln -s ~/.bash_profile ~/.profile
-    #+end_src
+** dotfiles
+   #+begin_src sh
+     # git clone github:chupaaaaaaan/dotfiles.git
+     # ~/dotfiles/deploy.bash
+     bash ~/Dropbox/dotfiles/deploy.bash &&
+         rm -f ~/.profile &&
+         ln -s ~/.bash_profile ~/.profile
+   #+end_src
+
+** Input method
+   #+begin_src sh
+     sudo apt update &&
+         sudo apt install -y fcitx-mozc &&
+         dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
+         im-config -n fcitx &&
+         cat << EOF > ~/.bash_profile.d/fcitx-mozc
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export DefaultIMModule=fcitx
+if [ \$SHLVL = 1 ] ; then
+    fcitx-autostart > /dev/null 2>&1
+    xset -r 49  > /dev/null 2>&1
+fi
+EOF
+   #+end_src
 
 ** XServer/XClient
    #+begin_src sh
