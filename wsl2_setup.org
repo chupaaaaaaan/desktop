@@ -120,7 +120,7 @@ EOF
    #+begin_src sh
      : > ~/.bash_profile.d/display &&
          cat <<EOF > ~/.bash_profile.d/display
-export DISPLAY=\$(ip r s | grep default | tr -s ' ' | cut -d' ' -f3):0.0
+export DISPLAY=\$(ip r s | grep -oP '(?<=default via\s)\d+(\.\d+){3}'):0.0
 
 command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
 (
