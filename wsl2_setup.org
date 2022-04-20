@@ -113,6 +113,8 @@ if [ \$SHLVL = 1 ] ; then
     fcitx-autostart > /dev/null 2>&1
     xset -r 49  > /dev/null 2>&1
 fi
+
+export NO_AT_BRIDGE=1
 EOF
    #+end_src
 
