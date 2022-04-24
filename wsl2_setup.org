@@ -104,6 +104,7 @@
          sudo apt install -y fcitx-mozc &&
          dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
          im-config -n fcitx &&
+         : > ~/.bash_profile.d/fcitx-mozc &&
          cat << EOF > ~/.bash_profile.d/fcitx-mozc
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
@@ -113,6 +114,16 @@ if [ \$SHLVL = 1 ] ; then
     fcitx-autostart > /dev/null 2>&1
     xset -r 49  > /dev/null 2>&1
 fi
+EOF
+   #+end_src
+
+** Input method (Emacs)
+   #+begin_src sh
+     sudo apt update &&
+         sudo apt -y install emacs-mozc &&
+         : > ~/.bashrc.d/emacs &&
+         cat << EOF > ~/.bashrc.d/emacs
+alias emacs='XMODIFIERS=@im=none emacs'
 EOF
    #+end_src
 
