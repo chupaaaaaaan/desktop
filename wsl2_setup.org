@@ -101,7 +101,7 @@
 ** Input method
    #+begin_src sh
      sudo apt update &&
-         sudo apt install -y fcitx-mozc &&
+         sudo apt -y install fcitx-mozc &&
          dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
          im-config -n fcitx &&
          : > ~/.bash_profile.d/fcitx-mozc &&
@@ -165,6 +165,7 @@ EOF
 
 ** oj (competitive programming)
    #+begin_src sh
-     sudo apt install python3-pip &&
+     sudo apt update &&
+         sudo apt -y install python3-pip &&
          pip3 install --user online-judge-tools
    #+end_src
