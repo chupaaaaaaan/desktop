@@ -166,6 +166,48 @@ EOF
          echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
    #+end_src
 
+** Node
+   #+begin_src sh
+     export NVM_DIR="$HOME/.nvm" &&
+         mkdir -p "$NVM_DIR" &&
+         curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
+         [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh &&
+         [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion &&
+         nvm install 'lts/*' --reinstall-packages-from=current &&
+         nvm alias default lts/gallium &&
+         : > $HOME/.bashrc.d/node &&
+         echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node &&
+         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bashrc.d/node &&
+         echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node &&
+         npm config set -g user root
+   #+end_src
+
+** Elm
+   #+begin_src sh
+     npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
+   #+end_src
+
+** Java
+   #+begin_src sh
+     sudo apt update &&
+         sudo apt -y install openjdk-11-jdk &&
+         : > $HOME/.bash_profile.d/jdk &&
+         echo 'export JAVA_HOME=$(echo $(readlink -f /usr/bin/javac) | sed -e "s:/bin/javac::")' >> $HOME/.bash_profile.d/jdk &&
+         sudo curl -L -o /tmp/maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz &&
+         sudo tar xzvf /tmp/maven.tar.gz -C /opt &&
+         sudo rm -f /tmp/maven.tar.gz &&
+         : > $HOME/.bash_profile.d/maven &&
+         echo 'PATH=/opt/apache-maven-3.8.5/bin:$PATH' >> $HOME/.bash_profile.d/maven
+   #+end_src
+
+** AWSCLIv2
+   #+begin_src sh
+     curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
+         unzip -u -d /tmp /tmp/awscliv2.zip &&
+         sudo /tmp/aws/install --update &&
+         bash ~/Dropbox/creds/aws_cred_setup.bash
+   #+end_src
+
 ** oj (competitive programming)
    #+begin_src sh
      sudo apt update &&
