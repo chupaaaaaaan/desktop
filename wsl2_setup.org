@@ -193,17 +193,18 @@ EOF
      npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
    #+end_src
 
-** Java
+** SDKMAN
    #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install openjdk-11-jdk &&
-         : > $HOME/.bash_profile.d/jdk &&
-         echo 'export JAVA_HOME=$(echo $(readlink -f /usr/bin/javac) | sed -e "s:/bin/javac::")' >> $HOME/.bash_profile.d/jdk &&
-         sudo curl -L -o /tmp/maven.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz &&
-         sudo tar xzvf /tmp/maven.tar.gz -C /opt &&
-         sudo rm -f /tmp/maven.tar.gz &&
-         : > $HOME/.bash_profile.d/maven &&
-         echo 'PATH=/opt/apache-maven-3.8.5/bin:$PATH' >> $HOME/.bash_profile.d/maven
+     curl -s "https://get.sdkman.io" | bash &&
+         . "$HOME/.sdkman/bin/sdkman-init.sh" &&
+         sdk i java 11.0.15-tem &&
+         sdk i maven 3.8.5
+   #+end_src
+
+** Intellij IDEA
+   #+begin_src sh
+     curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
+         ln -s /opt/idea-IU-221.5591.52/bin/idea.sh ~/bin/idea.sh
    #+end_src
 
 ** AWSCLIv2
