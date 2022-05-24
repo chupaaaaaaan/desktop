@@ -159,6 +159,12 @@ command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' ||
 EOF
    #+end_src
 
+** google chrome
+   #+begin_src sh
+     curl -L -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+         sudo dpkg -i /tmp/google-chrome.deb
+   #+end_src
+
 ** Haskell
    #+begin_src sh
      sudo apt update &&
