@@ -83,7 +83,13 @@
          ~/.dropbox-dist/dropbox.py autostart y &&
          ~/.dropbox-dist/dropbox.py start &&
          ~/.dropbox-dist/dropbox.py status #=> リンク実施
+   #+end_src
+
+   #+begin_src sh
      ~/.dropbox-dist/dropbox.py status #=> 同期状況確認
+   #+end_src
+
+   #+begin_src sh
      ln -s ~/Dropbox/org ~/org
    #+end_src
 
@@ -170,9 +176,15 @@ EOF
      sudo apt update &&
          sudo apt -y install build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 &&
          curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+   #+end_src
+
+   #+begin_src sh
      . ~/.ghcup/env &&
          : > ~/.bash_profile.d/ghcup &&
          echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' > ~/.bash_profile.d/ghcup
+   #+end_src
+
+   #+begin_src sh
      stack config set system-ghc --global true &&
          : > $HOME/.bashrc.d/stack &&
          echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
