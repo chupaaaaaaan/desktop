@@ -131,6 +131,10 @@ export NO_AT_BRIDGE=1
 EOF
    #+end_src
 
+   #+begin_src sh
+     fcitx-configtools #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
+   #+end_src
+
 ** Input method (Emacs)
    #+begin_src sh
      sudo apt update &&
