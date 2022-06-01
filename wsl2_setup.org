@@ -220,7 +220,12 @@ EOF
      curl -s "https://get.sdkman.io" | bash &&
          . "$HOME/.sdkman/bin/sdkman-init.sh" &&
          sdk i java 11.0.15-tem &&
-         sdk i maven 3.8.5
+         sdk i maven 3.8.5 &&
+         export SDKMAN_DIR="$HOME/.sdkman" &&
+         [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh" &&
+         : > $HOME/.bashrc.d/sdkman &&
+         echo 'export SDKMAN_DIR="$HOME/.sdkman"'                                                   >> $HOME/.bashrc.d/sdkman &&
+         echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh"' >> $HOME/.bashrc.d/sdkman
    #+end_src
 
 ** Intellij IDEA
