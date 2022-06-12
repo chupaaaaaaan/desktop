@@ -78,11 +78,11 @@
 ** Dropbox
    #+begin_src sh
      curl -L https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
-         curl -L -o ~/.dropbox-dist/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
-         chmod +x ~/.dropbox-dist/dropbox.py &&
-         ~/.dropbox-dist/dropbox.py autostart y &&
-         ~/.dropbox-dist/dropbox.py start &&
-         ~/.dropbox-dist/dropbox.py status #=> リンク実施
+         curl -L -o ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
+         chmod +x ~/bin/dropbox.py &&
+         dropbox.py autostart y &&
+         dropbox.py start &&
+         dropbox.py status #=> リンク実施
    #+end_src
 
    #+begin_src sh
