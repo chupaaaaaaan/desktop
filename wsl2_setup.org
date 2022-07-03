@@ -242,6 +242,22 @@ EOF
          bash ~/Dropbox/creds/aws_cred_setup.bash
    #+end_src
 
+** virtualbox/vagrant (only configuration for WSL2)
+   #+begin_src sh
+     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+         sudo apt update &&
+         sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
+         export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
+         export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox" &&
+         : > $HOME/.bash_profile.d/vagrant &&
+         echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> $HOME/.bash_profile.d/vagrant &&
+         echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> $HOME/.bash_profile.d/vagrant &&
+         vagrant plugin install virtualbox_WSL2 &&
+         vagrant plugin install vagrant-vbguest &&
+         vagrant plugin install vagrant-disksize
+   #+end_src
+
 ** oj (competitive programming)
    #+begin_src sh
      sudo apt update &&
