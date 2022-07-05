@@ -254,7 +254,7 @@ EOF
          echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> $HOME/.bash_profile.d/vagrant &&
          echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> $HOME/.bash_profile.d/vagrant &&
          vagrant plugin install virtualbox_WSL2 &&
-         vagrant plugin install vagrant-vbguest &&
+         vagrant plugin install vagrant-hosts &&
          vagrant plugin install vagrant-disksize
    #+end_src
 
