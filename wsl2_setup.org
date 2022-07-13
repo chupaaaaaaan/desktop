@@ -59,7 +59,7 @@
 ** commands
    #+begin_src sh
      sudo apt update &&
-         sudo apt -y install jq git curl unzip zip bash-completion silversearcher-ag
+         sudo apt -y install jq git curl unzip zip bash-completion silversearcher-ag peco
    #+end_src
    
 ** commands (adding binaries)
