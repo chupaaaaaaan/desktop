@@ -154,7 +154,7 @@ export DISPLAY=\$(ip r s | grep -oP '(?<=default via\s)\d+(\.\d+){3}'):0.0
 command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
 (
     cd '/mnt/c/Program Files/VcXsrv'
-    ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl > /dev/null 2>&1 &
+    ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl -ac > /dev/null 2>&1 &
 
     if uname -v | grep -v -q 'Microsoft'; then
         # When using xhost
