@@ -268,6 +268,14 @@
       vagrant plugin install vagrant-disksize
 #+end_src
 
+** postgresql-13 client
+#+begin_src sh
+  wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&
+      sudo apt-add-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
+      sudo apt update &&
+      sudo apt -y install postgresql-client-13
+#+end_src
+
 ** oj (competitive programming)
 #+begin_src sh
   sudo apt update &&
