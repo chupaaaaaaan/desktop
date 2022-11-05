@@ -43,8 +43,8 @@
 
 ** Japanize
 #+begin_src sh
-  wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add - &&
-      wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add - &&
+  wget -q -O- https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg | sudo apt-key add - &&
+      wget -q -O- https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg | sudo apt-key add - &&
       sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
       sudo apt update &&
       sudo apt -y install ubuntu-defaults-ja
@@ -244,7 +244,7 @@
 
 ** Terraform
 #+begin_src sh
-  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+  wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
       sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install terraform terraform-ls &&
@@ -254,7 +254,7 @@
 
 ** virtualbox/vagrant (only configuration for WSL2)
 #+begin_src sh
-  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+  wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
       sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
