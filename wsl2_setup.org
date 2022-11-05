@@ -1,276 +1,276 @@
 * WSL2 - Ubuntu 20.04 setup
 
 ** 事前準備
-   - [ ] VcXsrvのインストール
-     - https://sourceforge.net/projects/vcxsrv/
-   - [ ] (WSL2内)プロキシの設定
-     - /etc/apt/apt.conf
-       #+begin_src
-         Acquire::http::proxy "http://id:pass@proxysrv:port/";
-         Acquire::https::proxy "https://id:pass@proxysrv:port/";
-       #+end_src
-     - /etc/wgetrc
-       - proxyを検索して記載
-     - 環境変数
-       - export HTTP_PROXY
-       - export HTTPS_PROXY
-       - export NO_PROXY
+- [ ] VcXsrvのインストール
+  - https://sourceforge.net/projects/vcxsrv/
+- [ ] (WSL2内)プロキシの設定
+  - /etc/apt/apt.conf
+    #+begin_src
+      Acquire::http::proxy "http://id:pass@proxysrv:port/";
+      Acquire::https::proxy "https://id:pass@proxysrv:port/";
+    #+end_src
+  - /etc/wgetrc
+    - proxyを検索して記載
+  - 環境変数
+    - export HTTP_PROXY
+    - export HTTPS_PROXY
+    - export NO_PROXY
 
 ** update & upgrade
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y upgrade &&
-         sudo apt -y dist-upgrade
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y upgrade &&
+      sudo apt -y dist-upgrade
+#+end_src
   
 ** locale (Japan)
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install language-pack-ja &&
-         sudo update-locale LANG=ja_JP.utf8
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install language-pack-ja &&
+      sudo update-locale LANG=ja_JP.utf8
+#+end_src
 
 ** man page
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install manpages-ja manpages-ja-dev
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install manpages-ja manpages-ja-dev
+#+end_src
 
 ** timezone (Asia/Tokyo)
-   #+begin_src sh
-     sudo ln -f -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-   #+end_src
+#+begin_src sh
+  sudo ln -f -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+#+end_src
 
 ** Japanize
-   #+begin_src sh
-     wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add - &&
-         wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add - &&
-         sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
-         sudo apt update &&
-         sudo apt -y install ubuntu-defaults-ja
-   #+end_src
+#+begin_src sh
+  wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -O- | sudo apt-key add - &&
+      wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -O- | sudo apt-key add - &&
+      sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
+      sudo apt update &&
+      sudo apt -y install ubuntu-defaults-ja
+#+end_src
 
 ** fonts
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install fonts-ricty-diminished
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install fonts-ricty-diminished
+#+end_src
 
 ** commands
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install jq git curl unzip zip bash-completion silversearcher-ag peco
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install jq git curl unzip zip bash-completion silversearcher-ag peco
+#+end_src
    
 ** commands (adding binaries)
-   #+begin_src sh
-     curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
-         sudo dpkg -i /tmp/git-delta.deb
-   #+end_src
+#+begin_src sh
+  curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
+      sudo dpkg -i /tmp/git-delta.deb
+#+end_src
 
 ** Emacs 27
-   #+begin_src sh
-     sudo add-apt-repository -y ppa:kelleyk/emacs &&
-         sudo apt update &&
-         sudo apt -y install emacs27 emacs27-el cmake libtool-bin #=> cmake and libtool-bin for vterm
-   #+end_src
+#+begin_src sh
+  sudo add-apt-repository -y ppa:kelleyk/emacs &&
+      sudo apt update &&
+      sudo apt -y install emacs27 emacs27-el cmake libtool-bin #=> cmake and libtool-bin for vterm
+#+end_src
 
 ** Dropbox
-   #+begin_src sh
-     curl -L https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
-         curl -L -o ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
-         chmod +x ~/bin/dropbox.py &&
-         dropbox.py autostart y &&
-         dropbox.py start &&
-         dropbox.py status #=> リンク実施
-   #+end_src
+#+begin_src sh
+  curl -L https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
+      curl -L -o ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
+      chmod +x ~/bin/dropbox.py &&
+      dropbox.py autostart y &&
+      dropbox.py start &&
+      dropbox.py status #=> リンク実施
+#+end_src
 
-   #+begin_src sh
-     ~/.dropbox-dist/dropbox.py status #=> 同期状況確認
-   #+end_src
+#+begin_src sh
+  ~/.dropbox-dist/dropbox.py status #=> 同期状況確認
+#+end_src
 
-   #+begin_src sh
-     ln -s ~/Dropbox/org ~/org
-   #+end_src
+#+begin_src sh
+  ln -s ~/Dropbox/org ~/org
+#+end_src
 
 ** ssh
-   #+begin_src sh
-     mkdir ~/.ssh &&
-         chmod 700 ~/.ssh &&
-         cp ~/Dropbox/clients/dotssh/* ~/.ssh &&
-         chmod 400 ~/.ssh/*.key
-   #+end_src
+#+begin_src sh
+  mkdir ~/.ssh &&
+      chmod 700 ~/.ssh &&
+      cp ~/Dropbox/clients/dotssh/* ~/.ssh &&
+      chmod 400 ~/.ssh/*.key
+#+end_src
 
 ** dotfiles
-   #+begin_src sh
-     # git clone github:chupaaaaaaan/dotfiles.git
-     # ~/dotfiles/deploy.bash
-     bash ~/Dropbox/dotfiles/deploy.bash &&
-         rm -f ~/.profile &&
-         ln -s ~/.bash_profile ~/.profile
-   #+end_src
+#+begin_src sh
+  # git clone github:chupaaaaaaan/dotfiles.git
+  # ~/dotfiles/deploy.bash
+  bash ~/Dropbox/dotfiles/deploy.bash &&
+      rm -f ~/.profile &&
+      ln -s ~/.bash_profile ~/.profile
+#+end_src
 
 ** Input method
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install fcitx-mozc &&
-         dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
-         im-config -n fcitx &&
-         : > ~/.bash_profile.d/fcitx-mozc &&
-         cat << EOF > ~/.bash_profile.d/fcitx-mozc
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-export DefaultIMModule=fcitx
-if [ \$SHLVL = 1 ] ; then
-    fcitx-autostart > /dev/null 2>&1
-    xset -r 49  > /dev/null 2>&1
-fi
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install fcitx-mozc &&
+      dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
+      im-config -n fcitx &&
+      : > ~/.bash_profile.d/fcitx-mozc &&
+      cat << EOF > ~/.bash_profile.d/fcitx-mozc
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=@im=fcitx
+  export DefaultIMModule=fcitx
+  if [ \$SHLVL = 1 ] ; then
+      fcitx-autostart > /dev/null 2>&1
+      xset -r 49  > /dev/null 2>&1
+  fi
 
-export NO_AT_BRIDGE=1
-EOF
-   #+end_src
+  export NO_AT_BRIDGE=1
+  EOF
+#+end_src
 
-   #+begin_src sh
-     fcitx-configtools #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
-   #+end_src
+#+begin_src sh
+  fcitx-configtools #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
+#+end_src
 
 ** Input method (Emacs)
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install emacs-mozc &&
-         : > ~/.bashrc.d/emacs &&
-         cat << EOF > ~/.bashrc.d/emacs
-alias emacs='XMODIFIERS=@im=none emacs'
-EOF
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install emacs-mozc &&
+      : > ~/.bashrc.d/emacs &&
+      cat << EOF > ~/.bashrc.d/emacs
+  alias emacs='XMODIFIERS=@im=none emacs'
+  EOF
+#+end_src
 
 ** XServer/XClient
-   #+begin_src sh
-     : > ~/.bash_profile.d/display &&
-         cat <<EOF > ~/.bash_profile.d/display
-export DISPLAY=\$(ip r s | grep -oP '(?<=default via\s)\d+(\.\d+){3}'):0.0
+#+begin_src sh
+  : > ~/.bash_profile.d/display &&
+      cat <<EOF > ~/.bash_profile.d/display
+  export DISPLAY=\$(ip r s | grep -oP '(?<=default via\s)\d+(\.\d+){3}'):0.0
 
-command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
-(
-    cd '/mnt/c/Program Files/VcXsrv'
-    ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl -ac > /dev/null 2>&1 &
+  command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
+  (
+      cd '/mnt/c/Program Files/VcXsrv'
+      ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl -ac > /dev/null 2>&1 &
 
-    if uname -v | grep -v -q 'Microsoft'; then
-        # When using xhost
-        WSLENV=DISPLAY ./xhost.exe + \$(ip -4 a s eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+      if uname -v | grep -v -q 'Microsoft'; then
+          # When using xhost
+          WSLENV=DISPLAY ./xhost.exe + \$(ip -4 a s eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 
-        # # When using xauth
-        # ./xauth.exe generate \$DISPLAY . trusted timeout 0 # trusted にしないと clipboad 連携が機能しない
-        # ./xauth.exe extract - \$DISPLAY | xauth merge -
-    fi
-)
+          # # When using xauth
+          # ./xauth.exe generate \$DISPLAY . trusted timeout 0 # trusted にしないと clipboad 連携が機能しない
+          # ./xauth.exe extract - \$DISPLAY | xauth merge -
+      fi
+  )
 
-EOF
-   #+end_src
+  EOF
+#+end_src
 
 ** google chrome
-   #+begin_src sh
-     curl -L -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
-         sudo dpkg -i /tmp/google-chrome.deb
-   #+end_src
+#+begin_src sh
+  curl -L -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+      sudo dpkg -i /tmp/google-chrome.deb
+#+end_src
 
 ** Haskell
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 &&
-         curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 &&
+      curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+#+end_src
 
-   #+begin_src sh
-     . ~/.ghcup/env &&
-         : > ~/.bash_profile.d/ghcup &&
-         echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' > ~/.bash_profile.d/ghcup
-   #+end_src
+#+begin_src sh
+  . ~/.ghcup/env &&
+      : > ~/.bash_profile.d/ghcup &&
+      echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' > ~/.bash_profile.d/ghcup
+#+end_src
 
-   #+begin_src sh
-     stack config set system-ghc --global true &&
-         : > $HOME/.bashrc.d/stack &&
-         echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
-   #+end_src
+#+begin_src sh
+  stack config set system-ghc --global true &&
+      : > $HOME/.bashrc.d/stack &&
+      echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+#+end_src
 
 ** Node
-   #+begin_src sh
-     export NVM_DIR="$HOME/.nvm" &&
-         mkdir -p "$NVM_DIR" &&
-         curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-         [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh &&
-         [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion &&
-         nvm install 'lts/*' --reinstall-packages-from=current &&
-         nvm alias default lts/gallium &&
-         : > $HOME/.bashrc.d/node &&
-         echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node &&
-         echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bashrc.d/node &&
-         echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node &&
-         npm config set -g user root
-   #+end_src
+#+begin_src sh
+  export NVM_DIR="$HOME/.nvm" &&
+      mkdir -p "$NVM_DIR" &&
+      curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
+      [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh &&
+      [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion &&
+      nvm install 'lts/*' --reinstall-packages-from=current &&
+      nvm alias default lts/gallium &&
+      : > $HOME/.bashrc.d/node &&
+      echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node &&
+      npm config set -g user root
+#+end_src
 
 ** Elm
-   #+begin_src sh
-     npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
-   #+end_src
+#+begin_src sh
+  npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
+#+end_src
 
 ** SDKMAN
-   #+begin_src sh
-     curl -s "https://get.sdkman.io" | bash &&
-         . "$HOME/.sdkman/bin/sdkman-init.sh" &&
-         sdk i java 11.0.15-tem &&
-         sdk i maven 3.8.5 &&
-         export SDKMAN_DIR="$HOME/.sdkman" &&
-         [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh" &&
-         : > $HOME/.bashrc.d/sdkman &&
-         echo 'export SDKMAN_DIR="$HOME/.sdkman"'                                                   >> $HOME/.bashrc.d/sdkman &&
-         echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh"' >> $HOME/.bashrc.d/sdkman
-   #+end_src
+#+begin_src sh
+  curl -s "https://get.sdkman.io" | bash &&
+      . "$HOME/.sdkman/bin/sdkman-init.sh" &&
+      sdk i java 11.0.15-tem &&
+      sdk i maven 3.8.5 &&
+      export SDKMAN_DIR="$HOME/.sdkman" &&
+      [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh" &&
+      : > $HOME/.bashrc.d/sdkman &&
+      echo 'export SDKMAN_DIR="$HOME/.sdkman"'                                                   >> $HOME/.bashrc.d/sdkman &&
+      echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh"' >> $HOME/.bashrc.d/sdkman
+#+end_src
 
 ** Intellij IDEA
-   #+begin_src sh
-     curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
-         ln -s /opt/idea-IU-221.5591.52/bin/idea.sh ~/bin/idea.sh
-   #+end_src
+#+begin_src sh
+  curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
+      ln -s /opt/idea-IU-221.5591.52/bin/idea.sh ~/bin/idea.sh
+#+end_src
 
 ** AWSCLIv2
-   #+begin_src sh
-     curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
-         unzip -u -d /tmp /tmp/awscliv2.zip &&
-         sudo /tmp/aws/install --update &&
-         bash ~/Dropbox/creds/aws_cred_setup.bash
-   #+end_src
+#+begin_src sh
+  curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
+      unzip -u -d /tmp /tmp/awscliv2.zip &&
+      sudo /tmp/aws/install --update &&
+      bash ~/Dropbox/creds/aws_cred_setup.bash
+#+end_src
 
 ** Terraform
-   #+begin_src sh
-     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
-         sudo apt update &&
-         sudo apt -y install terraform terraform-ls &&
-         : > $HOME/.bashrc.d/terraform &&
-         echo 'complete -C /usr/bin/terraform terraform' >> $HOME/.bashrc.d/terraform
-   #+end_src
+#+begin_src sh
+  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+      sudo apt update &&
+      sudo apt -y install terraform terraform-ls &&
+      : > $HOME/.bashrc.d/terraform &&
+      echo 'complete -C /usr/bin/terraform terraform' >> $HOME/.bashrc.d/terraform
+#+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
-   #+begin_src sh
-     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
-         sudo apt update &&
-         sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
-         export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
-         export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox" &&
-         : > $HOME/.bash_profile.d/vagrant &&
-         echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> $HOME/.bash_profile.d/vagrant &&
-         echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> $HOME/.bash_profile.d/vagrant &&
-         vagrant plugin install virtualbox_WSL2 &&
-         vagrant plugin install vagrant-hosts &&
-         vagrant plugin install vagrant-disksize
-   #+end_src
+#+begin_src sh
+  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+      sudo apt update &&
+      sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
+      export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
+      export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox" &&
+      : > $HOME/.bash_profile.d/vagrant &&
+      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> $HOME/.bash_profile.d/vagrant &&
+      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> $HOME/.bash_profile.d/vagrant &&
+      vagrant plugin install virtualbox_WSL2 &&
+      vagrant plugin install vagrant-hosts &&
+      vagrant plugin install vagrant-disksize
+#+end_src
 
 ** oj (competitive programming)
-   #+begin_src sh
-     sudo apt update &&
-         sudo apt -y install python3-pip &&
-         pip3 install --user online-judge-tools
-   #+end_src
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install python3-pip &&
+      pip3 install --user online-judge-tools
+#+end_src
