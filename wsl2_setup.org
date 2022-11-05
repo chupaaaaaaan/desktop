@@ -242,6 +242,16 @@ EOF
          bash ~/Dropbox/creds/aws_cred_setup.bash
    #+end_src
 
+** Terraform
+   #+begin_src sh
+     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+         sudo apt update &&
+         sudo apt -y install terraform terraform-ls &&
+         : > $HOME/.bashrc.d/terraform &&
+         echo 'complete -C /usr/bin/terraform terraform' >> $HOME/.bashrc.d/terraform
+   #+end_src
+
 ** virtualbox/vagrant (only configuration for WSL2)
    #+begin_src sh
      curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
