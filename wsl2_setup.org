@@ -90,7 +90,9 @@
       chmod +x ~/bin/dropbox.py &&
       dropbox.py autostart y &&
       dropbox.py start &&
-      dropbox.py status #=> リンク実施
+      dropbox.py status && #=> リンク実施
+      : > ~/.bashrc.d/dropbox &&
+      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ~/.bashrc.d/dropbox
 #+end_src
 
 #+begin_src sh
@@ -239,7 +241,9 @@
 ** Intellij IDEA
 #+begin_src sh
   curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
-      ln -s /opt/idea-IU-221.5591.52/bin/idea.sh ~/bin/idea.sh
+      ln -s /opt/idea-IU-221.5591.52/bin/idea.sh /opt/idea/bin/idea.sh &&
+      : > ~/.bashrc.d/idea &&
+      echo "alias idea='/opt/idea/bin/idea.sh >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
 #+end_src
 
 ** AWSCLIv2
