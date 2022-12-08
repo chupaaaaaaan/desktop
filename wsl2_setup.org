@@ -74,11 +74,13 @@
       sudo dpkg -i /tmp/git-delta.deb
 #+end_src
 
-** Emacs 27
+** Emacs 28
 #+begin_src sh
   sudo add-apt-repository -y ppa:kelleyk/emacs &&
       sudo apt update &&
-      sudo apt -y install emacs27 emacs27-el cmake libtool-bin #=> cmake and libtool-bin for vterm
+      sudo apt -y install emacs28 emacs28-el cmake libtool-bin && #=> cmake and libtool-bin for vterm
+      : > ~/.bashrc.d/emacs &&
+      echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ~/.bashrc.d/emacs
 #+end_src
 
 ** Dropbox
