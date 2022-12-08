@@ -56,6 +56,12 @@
       sudo apt -y install fonts-ricty-diminished
 #+end_src
 
+** X
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install x11-xkb-utils
+#+end_src
+
 ** commands
 #+begin_src sh
   sudo apt update &&
