@@ -155,30 +155,6 @@
   EOF
 #+end_src
 
-** XServer/XClient
-#+begin_src sh
-  : > ~/.bash_profile.d/display &&
-      cat <<EOF > ~/.bash_profile.d/display
-  export DISPLAY=\$(ip r s | grep -oP '(?<=default via\s)\d+(\.\d+){3}'):0.0
-
-  command tasklist.exe > /dev/null && tasklist.exe | grep -q 'vcxsrv.exe' || 
-  (
-      cd '/mnt/c/Program Files/VcXsrv'
-      ./vcxsrv.exe :0 -multiwindow -clipboard -noprimary -wgl -ac > /dev/null 2>&1 &
-
-      if uname -v | grep -v -q 'Microsoft'; then
-          # When using xhost
-          WSLENV=DISPLAY ./xhost.exe + \$(ip -4 a s eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
-
-          # # When using xauth
-          # ./xauth.exe generate \$DISPLAY . trusted timeout 0 # trusted にしないと clipboad 連携が機能しない
-          # ./xauth.exe extract - \$DISPLAY | xauth merge -
-      fi
-  )
-
-  EOF
-#+end_src
-
 ** google chrome
 #+begin_src sh
   curl -L -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
