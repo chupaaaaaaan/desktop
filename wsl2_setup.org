@@ -1,8 +1,6 @@
 * WSL2 - Ubuntu 20.04 setup
 
 ** 事前準備
-- [ ] VcXsrvのインストール
-  - https://sourceforge.net/projects/vcxsrv/
 - [ ] (WSL2内)プロキシの設定
   - /etc/apt/apt.conf
     #+begin_src
@@ -15,6 +13,16 @@
     - export HTTP_PROXY
     - export HTTPS_PROXY
     - export NO_PROXY
+- [ ] systemdの有効化
+  #+begin_src sh
+    sudo bash -c "cat <<EOF > /etc/wsl.conf
+[boot]
+systemd=true
+EOF"
+  #+end_src
+  #+begin_src powershell
+    wsl.exe --shutdown
+  #+end_src
 
 ** update & upgrade
 #+begin_src sh
@@ -65,18 +73,29 @@
 ** commands
 #+begin_src sh
   sudo apt update &&
-      sudo apt -y install jq git curl unzip zip bash-completion silversearcher-ag peco
+      sudo apt -y install jq gron git curl unzip zip bash-completion silversearcher-ag peco
 #+end_src
    
-** commands (adding binaries)
+** git-delta
 #+begin_src sh
   curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
       sudo dpkg -i /tmp/git-delta.deb
 #+end_src
 
+** Docker CE
+#+begin_src sh
+  sudo apt -y remove docker docker-engine docker.io containerd runc
+#+end_src
+#+begin_src sh
+  wget -q -O- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" &&
+      sudo apt update &&
+      sudo apt -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+#+end_src
+
 ** Emacs 28
 #+begin_src sh
-  sudo add-apt-repository -y ppa:kelleyk/emacs &&
+  sudo add-apt-repository ppa:kelleyk/emacs &&
       sudo apt update &&
       sudo apt -y install emacs28 emacs28-el cmake libtool-bin && #=> cmake and libtool-bin for vterm
       : > ~/.bashrc.d/emacs &&
@@ -233,7 +252,7 @@
 ** Terraform
 #+begin_src sh
   wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+      sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install terraform terraform-ls &&
       : > $HOME/.bashrc.d/terraform &&
@@ -243,7 +262,7 @@
 ** virtualbox/vagrant (only configuration for WSL2)
 #+begin_src sh
   wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+      sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
       export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
@@ -259,7 +278,7 @@
 ** postgresql-13 client
 #+begin_src sh
   wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&
-      sudo apt-add-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
+      sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
       sudo apt update &&
       sudo apt -y install postgresql-client-13
 #+end_src
