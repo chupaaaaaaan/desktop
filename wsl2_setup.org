@@ -195,23 +195,23 @@ EOF"
 
 #+begin_src sh
   stack config set system-ghc --global true &&
-      : > $HOME/.bashrc.d/stack &&
-      echo 'eval "$(stack --bash-completion-script stack)"' >> $HOME/.bashrc.d/stack
+      : > ~/.bashrc.d/stack &&
+      echo 'eval "$(stack --bash-completion-script stack)"' >> ~/.bashrc.d/stack
 #+end_src
 
 ** Node
 #+begin_src sh
-  export NVM_DIR="$HOME/.nvm" &&
+  export NVM_DIR="~/.nvm" &&
       mkdir -p "$NVM_DIR" &&
       curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
       [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh &&
       [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion &&
       nvm install 'lts/*' --reinstall-packages-from=current &&
       nvm alias default lts/gallium &&
-      : > $HOME/.bashrc.d/node &&
-      echo 'export NVM_DIR=$HOME/.nvm'                                        >> $HOME/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> $HOME/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> $HOME/.bashrc.d/node &&
+      : > ~/.bashrc.d/node &&
+      echo 'export NVM_DIR=~/.nvm'                                            >> ~/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> ~/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> ~/.bashrc.d/node &&
       npm config set -g user root
 #+end_src
 
@@ -223,14 +223,14 @@ EOF"
 ** SDKMAN
 #+begin_src sh
   curl -s "https://get.sdkman.io" | bash &&
-      . "$HOME/.sdkman/bin/sdkman-init.sh" &&
+      . "~/.sdkman/bin/sdkman-init.sh" &&
       sdk i java 11.0.15-tem &&
       sdk i maven 3.8.5 &&
-      export SDKMAN_DIR="$HOME/.sdkman" &&
-      [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh" &&
-      : > $HOME/.bashrc.d/sdkman &&
-      echo 'export SDKMAN_DIR="$HOME/.sdkman"'                                                   >> $HOME/.bashrc.d/sdkman &&
-      echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && . "$HOME/.sdkman/bin/sdkman-init.sh"' >> $HOME/.bashrc.d/sdkman
+      export SDKMAN_DIR="~/.sdkman" &&
+      [[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh" &&
+      : > ~/.bashrc.d/sdkman &&
+      echo 'export SDKMAN_DIR="~/.sdkman"'                                               >> ~/.bashrc.d/sdkman &&
+      echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman
 #+end_src
 
 ** Intellij IDEA
@@ -255,8 +255,8 @@ EOF"
       sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install terraform terraform-ls &&
-      : > $HOME/.bashrc.d/terraform &&
-      echo 'complete -C /usr/bin/terraform terraform' >> $HOME/.bashrc.d/terraform
+      : > ~/.bashrc.d/terraform &&
+      echo 'complete -C /usr/bin/terraform terraform' >> ~/.bashrc.d/terraform
 #+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
@@ -267,9 +267,9 @@ EOF"
       sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
       export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
       export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox" &&
-      : > $HOME/.bash_profile.d/vagrant &&
-      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> $HOME/.bash_profile.d/vagrant &&
-      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> $HOME/.bash_profile.d/vagrant &&
+      : > ~/.bash_profile.d/vagrant &&
+      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> ~/.bash_profile.d/vagrant &&
+      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ~/.bash_profile.d/vagrant &&
       vagrant plugin install virtualbox_WSL2 &&
       vagrant plugin install vagrant-hosts &&
       vagrant plugin install vagrant-disksize
