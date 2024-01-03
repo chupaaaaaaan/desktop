@@ -24,24 +24,49 @@ EOF"
     wsl.exe --shutdown
   #+end_src
 
-** update & upgrade
+** update & upgrade & install
 #+begin_src sh
   sudo apt update &&
-      sudo apt -y upgrade &&
-      sudo apt -y dist-upgrade
+      sudo apt -y full-upgrade &&
+      sudo apt -y install \
+           language-pack-ja \
+           manpages-ja \
+           manpages-ja-dev \
+           fonts-ricty-diminished \
+           x11-xkb-utils \
+           jq \
+           gron \
+           git \
+           curl \
+           unzip \
+           zip \
+           bash-completion \
+           silversearcher-ag \
+           peco \
+           build-essential \
+           libbz2-dev \
+           libdb-dev \
+           libffi-dev \
+           libffi7 \
+           libgdbm-dev \
+           libgmp-dev \
+           libgmp10 \
+           liblzma-dev \
+           libncurses-dev \
+           libncurses5 \
+           libncursesw5-dev \
+           libreadline-dev \
+           libsqlite3-dev \
+           libssl-dev \
+           libtinfo5
+           tk-dev \
+           uuid-dev \
+           zlib1g-dev \
 #+end_src
   
 ** locale (Japan)
 #+begin_src sh
-  sudo apt update &&
-      sudo apt -y install language-pack-ja &&
-      sudo update-locale LANG=ja_JP.utf8
-#+end_src
-
-** man page
-#+begin_src sh
-  sudo apt update &&
-      sudo apt -y install manpages-ja manpages-ja-dev
+  sudo update-locale LANG=ja_JP.utf8
 #+end_src
 
 ** timezone (Asia/Tokyo)
@@ -56,30 +81,6 @@ EOF"
       sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
       sudo apt update &&
       sudo apt -y install ubuntu-defaults-ja
-#+end_src
-
-** fonts
-#+begin_src sh
-  sudo apt update &&
-      sudo apt -y install fonts-ricty-diminished
-#+end_src
-
-** X
-#+begin_src sh
-  sudo apt update &&
-      sudo apt -y install x11-xkb-utils
-#+end_src
-
-** commands
-#+begin_src sh
-  sudo apt update &&
-      sudo apt -y install jq gron git curl unzip zip bash-completion silversearcher-ag peco
-#+end_src
-   
-** git-delta
-#+begin_src sh
-  curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
-      sudo dpkg -i /tmp/git-delta.deb
 #+end_src
 
 ** Docker CE
@@ -99,7 +100,8 @@ EOF"
       sudo apt update &&
       sudo apt -y install emacs28 emacs28-el cmake libtool-bin && #=> cmake and libtool-bin for vterm
       : > ~/.bashrc.d/emacs &&
-      echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ~/.bashrc.d/emacs
+      echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ~/.bashrc.d/emacs &&
+      . ~/.bashrc.d/emacs
 #+end_src
 
 ** Dropbox
@@ -161,17 +163,14 @@ EOF"
 #+end_src
 
 #+begin_src sh
-  fcitx-configtools #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
+  fcitx-configtools
+  #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
+  #=> 「Ctrl + Shift + S」のホットキーを無効化する。
 #+end_src
 
 ** Input method (Emacs)
 #+begin_src sh
-  sudo apt update &&
-      sudo apt -y install emacs-mozc &&
-      : > ~/.bashrc.d/emacs &&
-      cat << EOF > ~/.bashrc.d/emacs
-  alias emacs='XMODIFIERS=@im=none emacs'
-  EOF
+  sudo apt update && sudo apt -y install emacs-mozc &&
 #+end_src
 
 ** google chrome
@@ -183,14 +182,14 @@ EOF"
 ** Haskell
 #+begin_src sh
   sudo apt update &&
-      sudo apt -y install build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 &&
+      sudo apt -y install  &&
       curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 #+end_src
 
 #+begin_src sh
-  . ~/.ghcup/env &&
-      : > ~/.bash_profile.d/ghcup &&
-      echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' > ~/.bash_profile.d/ghcup
+  : > ~/.bash_profile.d/ghcup &&
+      echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' >> ~/.bash_profile.d/ghcup &&
+      . ~/.bash_profile.d/ghcup
 #+end_src
 
 #+begin_src sh
@@ -201,18 +200,16 @@ EOF"
 
 ** Node
 #+begin_src sh
-  export NVM_DIR="~/.nvm" &&
+  curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
       mkdir -p "$NVM_DIR" &&
-      curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-      [ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh &&
-      [ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion &&
-      nvm install 'lts/*' --reinstall-packages-from=current &&
-      nvm alias default lts/gallium &&
       : > ~/.bashrc.d/node &&
-      echo 'export NVM_DIR=~/.nvm'                                            >> ~/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/nvm.sh" ] && \. $NVM_DIR/nvm.sh'                   >> ~/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/bash_completion" ] && \. $NVM_DIR/bash_completion' >> ~/.bashrc.d/node &&
-      npm config set -g user root
+      echo 'export NVM_DIR=$HOME/.nvm'                                       >> ~/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh'                   >> ~/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion' >> ~/.bashrc.d/node &&
+      echo '[ "none" = $(nvm current) ] && nvm install node'                 >> ~/.bashrc.d/node &&
+      . ~/.bashrc.d/node &&
+      nvm install node --reinstall-packages-from=current &&
+      nvm alias default node
 #+end_src
 
 ** Elm
@@ -220,7 +217,100 @@ EOF"
   npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
 #+end_src
 
-** SDKMAN
+** Intellij IDEA
+#+begin_src sh
+  # curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
+  #     ln -s /opt/idea-IU-221.5591.52/bin/idea.sh /opt/idea/bin/idea.sh &&
+  #     : > ~/.bashrc.d/idea &&
+  #     echo "alias idea='/opt/idea/bin/idea.sh >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
+  sudo snap install intellij-idea-ultimate --classic &&
+      : > ~/.bashrc.d/idea &&
+      echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
+#+end_src
+
+** virtualbox/vagrant (only configuration for WSL2)
+#+begin_src sh
+  wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
+      sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
+      sudo apt update &&
+      sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
+      : > ~/.bash_profile.d/vagrant &&
+      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> ~/.bash_profile.d/vagrant &&
+      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ~/.bash_profile.d/vagrant &&
+      . ~/.bash_profile.d/vagrant &&
+      vagrant plugin install virtualbox_WSL2 &&
+      vagrant plugin install vagrant-hosts &&
+      vagrant plugin install vagrant-disksize
+#+end_src
+
+** go
+#+begin_src sh
+  : > ~/.bash_profile.d/go &&
+      echo 'export GOPATH="$HOME/.local/go"'   >> ~/.bash_profile.d/go &&
+      echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bash_profile.d/go &&
+      . ~/.bash_profile.d/go &&
+      sudo rm -rf "$GOPATH" &&
+      wget -O- https://go.dev/dl/go1.21.3.linux-amd64.tar.gz | tar -C "${GOPATH%/go}" -xzf -
+#+end_src
+
+** Python
+#+begin_src sh
+  : > ~/.bash_profile.d/python &&
+      echo 'export PYPATH="$HOME/.local/python"' >> ~/.bash_profile.d/python &&
+      echo 'export PATH="$PYPATH/bin:$PATH"'     >> ~/.bash_profile.d/python &&
+      . ~/.bash_profile.d/python &&
+      ( PYVERSION=3.12.0 &&
+            wget -O- https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz | tar -C /tmp -xJf - &&
+            cd /tmp/Python-${PYVERSION} &&
+            ./configure --prefix=$PYPATH &&
+            make && make install )
+#+end_src
+
+** コマンドラインツール類
+*** oj (competitive programming)
+#+begin_src sh
+  sudo apt update &&
+      sudo apt -y install python3-pip &&
+      pip3 install --user online-judge-tools
+#+end_src
+*** yq
+#+begin_src sh
+  wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
+      chmod +x ~/.local/bin/yq
+#+end_src
+*** gh
+#+begin_src sh
+  wget -q -O- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo apt-key add - &&
+      sudo add-apt-repository "deb [arch=amd64] https://cli.github.com/packages stable main" &&
+      sudo apt update &&
+      sudo apt -y install gh
+#+end_src
+*** ghq
+#+begin_src sh
+  go install github.com/x-motemen/ghq@latest
+#+end_src
+*** git-delta
+#+begin_src sh
+  curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
+      sudo dpkg -i /tmp/git-delta.deb
+#+end_src
+*** AWSCLIv2
+#+begin_src sh
+  curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
+      unzip -u -d /tmp /tmp/awscliv2.zip &&
+      sudo /tmp/aws/install --update &&
+      bash ~/Dropbox/creds/aws_cred_setup.bash
+#+end_src
+
+*** postgresql-13 client
+#+begin_src sh
+  wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&
+      sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
+      sudo apt update &&
+      sudo apt -y install postgresql-client-13
+#+end_src
+
+*** SDKMAN
 #+begin_src sh
   curl -s "https://get.sdkman.io" | bash &&
       . "~/.sdkman/bin/sdkman-init.sh" &&
@@ -232,24 +322,7 @@ EOF"
       echo 'export SDKMAN_DIR="~/.sdkman"'                                               >> ~/.bashrc.d/sdkman &&
       echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman
 #+end_src
-
-** Intellij IDEA
-#+begin_src sh
-  curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
-      ln -s /opt/idea-IU-221.5591.52/bin/idea.sh /opt/idea/bin/idea.sh &&
-      : > ~/.bashrc.d/idea &&
-      echo "alias idea='/opt/idea/bin/idea.sh >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
-#+end_src
-
-** AWSCLIv2
-#+begin_src sh
-  curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
-      unzip -u -d /tmp /tmp/awscliv2.zip &&
-      sudo /tmp/aws/install --update &&
-      bash ~/Dropbox/creds/aws_cred_setup.bash
-#+end_src
-
-** Terraform
+*** Terraform
 #+begin_src sh
   wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
       sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
@@ -257,35 +330,4 @@ EOF"
       sudo apt -y install terraform terraform-ls &&
       : > ~/.bashrc.d/terraform &&
       echo 'complete -C /usr/bin/terraform terraform' >> ~/.bashrc.d/terraform
-#+end_src
-
-** virtualbox/vagrant (only configuration for WSL2)
-#+begin_src sh
-  wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-      sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
-      sudo apt update &&
-      sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
-      export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1 &&
-      export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox" &&
-      : > ~/.bash_profile.d/vagrant &&
-      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> ~/.bash_profile.d/vagrant &&
-      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ~/.bash_profile.d/vagrant &&
-      vagrant plugin install virtualbox_WSL2 &&
-      vagrant plugin install vagrant-hosts &&
-      vagrant plugin install vagrant-disksize
-#+end_src
-
-** postgresql-13 client
-#+begin_src sh
-  wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&
-      sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
-      sudo apt update &&
-      sudo apt -y install postgresql-client-13
-#+end_src
-
-** oj (competitive programming)
-#+begin_src sh
-  sudo apt update &&
-      sudo apt -y install python3-pip &&
-      pip3 install --user online-judge-tools
 #+end_src
