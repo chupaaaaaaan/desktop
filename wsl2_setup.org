@@ -84,15 +84,7 @@ EOF"
 #+end_src
 
 ** Docker CE
-#+begin_src sh
-  sudo apt -y remove docker docker-engine docker.io containerd runc
-#+end_src
-#+begin_src sh
-  wget -q -O- https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
-      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" &&
-      sudo apt update &&
-      sudo apt -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-#+end_src
+see https://docs.docker.com/engine/install/ubuntu/
 
 ** Emacs 28
 #+begin_src sh
@@ -200,7 +192,7 @@ EOF"
 
 ** Node
 #+begin_src sh
-  curl -sSL https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
+  wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
       mkdir -p "$NVM_DIR" &&
       : > ~/.bashrc.d/node &&
       echo 'export NVM_DIR=$HOME/.nvm'                                       >> ~/.bashrc.d/node &&
@@ -279,12 +271,8 @@ EOF"
       chmod +x ~/.local/bin/yq
 #+end_src
 *** gh
-#+begin_src sh
-  wget -q -O- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo apt-key add - &&
-      sudo add-apt-repository "deb [arch=amd64] https://cli.github.com/packages stable main" &&
-      sudo apt update &&
-      sudo apt -y install gh
-#+end_src
+see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+
 *** ghq
 #+begin_src sh
   go install github.com/x-motemen/ghq@latest
@@ -312,22 +300,13 @@ EOF"
 
 *** SDKMAN
 #+begin_src sh
-  curl -s "https://get.sdkman.io" | bash &&
-      . "~/.sdkman/bin/sdkman-init.sh" &&
-      sdk i java 11.0.15-tem &&
-      sdk i maven 3.8.5 &&
-      export SDKMAN_DIR="~/.sdkman" &&
-      [[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh" &&
+  wget -q -O- "https://get.sdkman.io" | bash &&
       : > ~/.bashrc.d/sdkman &&
       echo 'export SDKMAN_DIR="~/.sdkman"'                                               >> ~/.bashrc.d/sdkman &&
-      echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman
+      echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman &&
+      . ~/.bashrc.d/sdkman &&
+      sdk i java 11.0.15-tem &&
+      sdk i maven 3.8.5
 #+end_src
 *** Terraform
-#+begin_src sh
-  wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
-      sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
-      sudo apt update &&
-      sudo apt -y install terraform terraform-ls &&
-      : > ~/.bashrc.d/terraform &&
-      echo 'complete -C /usr/bin/terraform terraform' >> ~/.bashrc.d/terraform
-#+end_src
+see https://developer.hashicorp.com/terraform/install
