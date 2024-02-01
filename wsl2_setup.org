@@ -29,20 +29,12 @@ EOF"
   sudo apt update &&
       sudo apt -y full-upgrade &&
       sudo apt -y install \
-           language-pack-ja \
-           manpages-ja \
-           manpages-ja-dev \
+           language-pack-ja  manpages-ja manpages-ja-dev \
            fonts-ricty-diminished \
            x11-xkb-utils \
-           jq \
-           gron \
-           git \
-           curl \
-           unzip \
-           zip \
+           peco jq gron git curl unzip zip \
            bash-completion \
            silversearcher-ag \
-           peco \
            build-essential \
            libbz2-dev \
            libdb-dev \
@@ -58,12 +50,21 @@ EOF"
            libreadline-dev \
            libsqlite3-dev \
            libssl-dev \
-           libtinfo5
+           libtinfo5 \
            tk-dev \
            uuid-dev \
-           zlib1g-dev \
+           zlib1g-dev
 #+end_src
   
+** dotfiles
+#+begin_src sh
+  git clone https://github.com/chupaaaaaaan/dotfiles.git .dotfiles &&
+      bash ~/.dotfiles/deploy.bash &&
+      rm -f ~/.profile &&
+      ln -s ~/.bash_profile ~/.profile &&
+      . ~/.bash_profile
+#+end_src
+
 ** locale (Japan)
 #+begin_src sh
   sudo update-locale LANG=ja_JP.utf8
@@ -76,9 +77,9 @@ EOF"
 
 ** Japanize
 #+begin_src sh
-  wget -q -O- https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg | sudo apt-key add - &&
-      wget -q -O- https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg | sudo apt-key add - &&
-      sudo wget https://www.ubuntulinux.jp/sources.list.d/focal.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
+  sudo wget -q https://www.ubuntulinux.jp/ubuntu-jp-ppa-keyring.gpg -P /etc/apt/trusted.gpg.d/ &&
+      sudo wget -q https://www.ubuntulinux.jp/ubuntu-ja-archive-keyring.gpg -P /etc/apt/trusted.gpg.d/ &&
+      sudo wget -q https://www.ubuntulinux.jp/sources.list.d/jammy.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
       sudo apt update &&
       sudo apt -y install ubuntu-defaults-ja
 #+end_src
@@ -90,7 +91,7 @@ see https://docs.docker.com/engine/install/ubuntu/
 #+begin_src sh
   sudo add-apt-repository ppa:kelleyk/emacs &&
       sudo apt update &&
-      sudo apt -y install emacs28 emacs28-el cmake libtool-bin && #=> cmake and libtool-bin for vterm
+      sudo apt -y install emacs28 emacs28-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
       : > ~/.bashrc.d/emacs &&
       echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ~/.bashrc.d/emacs &&
       . ~/.bashrc.d/emacs
@@ -124,15 +125,6 @@ see https://docs.docker.com/engine/install/ubuntu/
       chmod 400 ~/.ssh/*.key
 #+end_src
 
-** dotfiles
-#+begin_src sh
-  # git clone github:chupaaaaaaan/dotfiles.git
-  # ~/dotfiles/deploy.bash
-  bash ~/Dropbox/dotfiles/deploy.bash &&
-      rm -f ~/.profile &&
-      ln -s ~/.bash_profile ~/.profile
-#+end_src
-
 ** Input method
 #+begin_src sh
   sudo apt update &&
@@ -158,11 +150,6 @@ see https://docs.docker.com/engine/install/ubuntu/
   fcitx-configtools
   #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
   #=> 「Ctrl + Shift + S」のホットキーを無効化する。
-#+end_src
-
-** Input method (Emacs)
-#+begin_src sh
-  sudo apt update && sudo apt -y install emacs-mozc &&
 #+end_src
 
 ** google chrome
