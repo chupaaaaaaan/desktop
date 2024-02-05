@@ -153,7 +153,7 @@ see https://docs.docker.com/engine/install/ubuntu/
 #+end_src
 
 #+begin_src sh
-  fcitx-configtools
+  fcitx-configtool
   #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
   #=> 「Ctrl + Shift + S」のホットキーを無効化する。
 #+end_src
