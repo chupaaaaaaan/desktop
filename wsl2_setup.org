@@ -22,9 +22,9 @@
 - [ ] (現在はいらないかも？)systemdの有効化
   #+begin_src sh
     sudo bash -c "cat <<EOF > /etc/wsl.conf
-[boot]
-systemd=true
-EOF"
+    [boot]
+    systemd=true
+    EOF"
   #+end_src
   #+begin_src powershell
     wsl.exe --shutdown
