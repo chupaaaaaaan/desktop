@@ -1,6 +1,12 @@
 * WSL2 - Ubuntu 20.04 setup
 
 ** 事前準備
+- [ ] (再作成の場合)仮想マシンの登録解除
+  #+begin_src
+    wsl --list
+    wsl --unregister Ubuntu
+  #+end_src
+
 - [ ] (WSL2内)プロキシの設定
   - /etc/apt/apt.conf
     #+begin_src
@@ -10,10 +16,10 @@
   - /etc/wgetrc
     - proxyを検索して記載
   - 環境変数
-    - export HTTP_PROXY
-    - export HTTPS_PROXY
-    - export NO_PROXY
-- [ ] systemdの有効化
+    - ~export HTTP_PROXY~
+    - ~export HTTPS_PROXY~
+    - ~export NO_PROXY~
+- [ ] (現在はいらないかも？)systemdの有効化
   #+begin_src sh
     sudo bash -c "cat <<EOF > /etc/wsl.conf
 [boot]
@@ -31,6 +37,7 @@ EOF"
       sudo apt -y install \
            language-pack-ja  manpages-ja manpages-ja-dev \
            fonts-ricty-diminished \
+           firefox \
            x11-xkb-utils \
            peco jq gron git curl unzip zip \
            bash-completion \
@@ -99,18 +106,17 @@ see https://docs.docker.com/engine/install/ubuntu/
 
 ** Dropbox
 #+begin_src sh
-  curl -L https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
-      curl -L -o ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
+  wget -q -O- https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
+      wget -O ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
       chmod +x ~/bin/dropbox.py &&
       dropbox.py autostart y &&
-      dropbox.py start &&
-      dropbox.py status && #=> リンク実施
       : > ~/.bashrc.d/dropbox &&
-      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ~/.bashrc.d/dropbox
+      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ~/.bashrc.d/dropbox &&
+      . ~/.bashrc.d/dropbox
 #+end_src
 
 #+begin_src sh
-  ~/.dropbox-dist/dropbox.py status #=> 同期状況確認
+  dropbox.py status #=> 同期状況確認
 #+end_src
 
 #+begin_src sh
@@ -152,21 +158,10 @@ see https://docs.docker.com/engine/install/ubuntu/
   #=> 「Ctrl + Shift + S」のホットキーを無効化する。
 #+end_src
 
-** google chrome
-#+begin_src sh
-  curl -L -o /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
-      sudo dpkg -i /tmp/google-chrome.deb
-#+end_src
-
 ** Haskell
 #+begin_src sh
-  sudo apt update &&
-      sudo apt -y install  &&
-      curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-#+end_src
-
-#+begin_src sh
-  : > ~/.bash_profile.d/ghcup &&
+  wget -q -O- https://get-ghcup.haskell.org | sh &&
+      : > ~/.bash_profile.d/ghcup &&
       echo '[ -f ~/.ghcup/env ] && . ~/.ghcup/env' >> ~/.bash_profile.d/ghcup &&
       . ~/.bash_profile.d/ghcup
 #+end_src
@@ -174,7 +169,8 @@ see https://docs.docker.com/engine/install/ubuntu/
 #+begin_src sh
   stack config set system-ghc --global true &&
       : > ~/.bashrc.d/stack &&
-      echo 'eval "$(stack --bash-completion-script stack)"' >> ~/.bashrc.d/stack
+      echo 'eval "$(stack --bash-completion-script stack)"' >> ~/.bashrc.d/stack &&
+      . ~/.bashrc.d/stack &&
 #+end_src
 
 ** Node
@@ -204,7 +200,8 @@ see https://docs.docker.com/engine/install/ubuntu/
   #     echo "alias idea='/opt/idea/bin/idea.sh >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
   sudo snap install intellij-idea-ultimate --classic &&
       : > ~/.bashrc.d/idea &&
-      echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
+      echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea &&
+      . ~/.bashrc.d/idea &&
 #+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
@@ -248,13 +245,11 @@ see https://docs.docker.com/engine/install/ubuntu/
 ** コマンドラインツール類
 *** oj (competitive programming)
 #+begin_src sh
-  sudo apt update &&
-      sudo apt -y install python3-pip &&
-      pip3 install --user online-judge-tools
+  python3 -m pip install --user online-judge-tools
 #+end_src
 *** yq
 #+begin_src sh
-  wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
+  wget -q -O ~/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 &&
       chmod +x ~/.local/bin/yq
 #+end_src
 *** gh
@@ -266,12 +261,12 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 #+end_src
 *** git-delta
 #+begin_src sh
-  curl -L -o /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
+  wget -q -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
       sudo dpkg -i /tmp/git-delta.deb
 #+end_src
 *** AWSCLIv2
 #+begin_src sh
-  curl -L -o /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
+  wget -q -O /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
       unzip -u -d /tmp /tmp/awscliv2.zip &&
       sudo /tmp/aws/install --update &&
       bash ~/Dropbox/creds/aws_cred_setup.bash
@@ -287,13 +282,11 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 
 *** SDKMAN
 #+begin_src sh
-  wget -q -O- "https://get.sdkman.io" | bash &&
+  wget -q -O- https://get.sdkman.io | bash &&
       : > ~/.bashrc.d/sdkman &&
       echo 'export SDKMAN_DIR="~/.sdkman"'                                               >> ~/.bashrc.d/sdkman &&
       echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman &&
-      . ~/.bashrc.d/sdkman &&
-      sdk i java 11.0.15-tem &&
-      sdk i maven 3.8.5
+      . ~/.bashrc.d/sdkman
 #+end_src
 *** Terraform
 see https://developer.hashicorp.com/terraform/install
