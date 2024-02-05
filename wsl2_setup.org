@@ -150,6 +150,7 @@ see https://docs.docker.com/engine/install/ubuntu/
 
   export NO_AT_BRIDGE=1
   EOF
+  . ~/.bash_profile.d/fcitx-mozc
 #+end_src
 
 #+begin_src sh
