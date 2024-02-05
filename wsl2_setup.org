@@ -222,7 +222,7 @@ see https://docs.docker.com/engine/install/ubuntu/
       echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bash_profile.d/go &&
       . ~/.bash_profile.d/go &&
       sudo rm -rf "$GOPATH" &&
-      wget -O- https://go.dev/dl/go1.21.3.linux-amd64.tar.gz | tar -C "${GOPATH%/go}" -xzf -
+      wget -q -O- https://go.dev/dl/go1.21.3.linux-amd64.tar.gz | tar -C "${GOPATH%/go}" -xzf -
 #+end_src
 
 ** Python
@@ -232,7 +232,7 @@ see https://docs.docker.com/engine/install/ubuntu/
       echo 'export PATH="$PYPATH/bin:$PATH"'     >> ~/.bash_profile.d/python &&
       . ~/.bash_profile.d/python &&
       ( PYVERSION=3.12.0 &&
-            wget -O- https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz | tar -C /tmp -xJf - &&
+            wget -q -O- https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz | tar -C /tmp -xJf - &&
             cd /tmp/Python-${PYVERSION} &&
             ./configure --prefix=$PYPATH &&
             make && make install )
