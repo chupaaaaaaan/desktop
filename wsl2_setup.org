@@ -248,6 +248,7 @@ see https://docs.docker.com/engine/install/ubuntu/
   wget -q -O ~/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 &&
       chmod +x ~/.local/bin/yq
 #+end_src
+
 *** gh
 see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 
@@ -255,25 +256,19 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 #+begin_src sh
   go install github.com/x-motemen/ghq@latest
 #+end_src
+
 *** git-delta
 #+begin_src sh
   wget -q -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
       sudo dpkg -i /tmp/git-delta.deb
 #+end_src
+
 *** AWSCLIv2
 #+begin_src sh
   wget -q -O /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
       unzip -u -d /tmp /tmp/awscliv2.zip &&
       sudo /tmp/aws/install --update &&
       bash ~/Dropbox/creds/aws_cred_setup.bash
-#+end_src
-
-*** postgresql-13 client
-#+begin_src sh
-  wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - &&
-      sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" &&
-      sudo apt update &&
-      sudo apt -y install postgresql-client-13
 #+end_src
 
 *** SDKMAN
@@ -284,5 +279,6 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
       echo '[[ -s "~/.sdkman/bin/sdkman-init.sh" ]] && . "~/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc.d/sdkman &&
       . ~/.bashrc.d/sdkman
 #+end_src
+
 *** Terraform
 see https://developer.hashicorp.com/terraform/install
