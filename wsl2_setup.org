@@ -177,7 +177,6 @@ see https://docs.docker.com/engine/install/ubuntu/
 ** Node
 #+begin_src sh
   wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-      mkdir -p "$NVM_DIR" &&
       : > ~/.bashrc.d/node &&
       echo 'export NVM_DIR=$HOME/.nvm'                                       >> ~/.bashrc.d/node &&
       echo '[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh'                   >> ~/.bashrc.d/node &&
