@@ -171,7 +171,7 @@ see https://docs.docker.com/engine/install/ubuntu/
   stack config set system-ghc --global true &&
       : > ~/.bashrc.d/stack &&
       echo 'eval "$(stack --bash-completion-script stack)"' >> ~/.bashrc.d/stack &&
-      . ~/.bashrc.d/stack &&
+      . ~/.bashrc.d/stack
 #+end_src
 
 ** Node
