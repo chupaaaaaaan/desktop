@@ -194,14 +194,10 @@ see https://docs.docker.com/engine/install/ubuntu/
 
 ** Intellij IDEA
 #+begin_src sh
-  # curl -L https://download.jetbrains.com/idea/ideaIU-2022.1.1.tar.gz | sudo tar xzvf - -C /opt &&
-  #     ln -s /opt/idea-IU-221.5591.52/bin/idea.sh /opt/idea/bin/idea.sh &&
-  #     : > ~/.bashrc.d/idea &&
-  #     echo "alias idea='/opt/idea/bin/idea.sh >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea
   sudo snap install intellij-idea-ultimate --classic &&
       : > ~/.bashrc.d/idea &&
       echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ~/.bashrc.d/idea &&
-      . ~/.bashrc.d/idea &&
+      . ~/.bashrc.d/idea
 #+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
