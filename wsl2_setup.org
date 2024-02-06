@@ -40,6 +40,7 @@
            firefox \
            x11-xkb-utils \
            peco jq gron git curl unzip zip \
+           connect-proxy \
            bash-completion \
            silversearcher-ag \
            build-essential \
