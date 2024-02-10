@@ -39,7 +39,7 @@
            fonts-ricty-diminished \
            firefox \
            x11-xkb-utils \
-           peco jq gron git curl unzip zip \
+           peco jq gron git curl unzip zip graphviz \
            connect-proxy \
            bash-completion \
            silversearcher-ag \
