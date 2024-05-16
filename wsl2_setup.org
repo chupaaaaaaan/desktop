@@ -95,7 +95,7 @@
 ** Docker CE
 see https://docs.docker.com/engine/install/ubuntu/
 
-** Emacs 28
+** Emacs 29
 #+begin_src sh
   sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
       sudo apt update &&
