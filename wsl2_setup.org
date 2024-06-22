@@ -8,27 +8,26 @@
   #+end_src
 
 - [ ] (WSL2内)プロキシの設定
-  - /etc/apt/apt.conf
-    #+begin_src
-      Acquire::http::proxy "http://id:pass@proxysrv:port/";
-      Acquire::https::proxy "https://id:pass@proxysrv:port/";
-    #+end_src
-  - /etc/wgetrc
-    - proxyを検索して記載
   - 環境変数
-    - ~export HTTP_PROXY~
-    - ~export HTTPS_PROXY~
-    - ~export NO_PROXY~
-- [ ] (現在はいらないかも？)systemdの有効化
-  #+begin_src sh
-    sudo bash -c "cat <<EOF > /etc/wsl.conf
-    [boot]
-    systemd=true
-    EOF"
-  #+end_src
-  #+begin_src powershell
-    wsl.exe --shutdown
-  #+end_src
+    #+begin_src sh
+      export HTTP_PROXY="http://id:pass@proxysrv:port/"
+      export http_proxy=${HTTP_PROXY}
+      export HTTPS_PROXY=${HTTP_PROXY}
+      export https_proxy=${HTTPS_PROXY}
+      export NO_PROXY=localhost,127.0.0.1
+    #+end_src
+  - APT
+    #+begin_src sh
+      sudo bash -c 'echo "Acquire::http::proxy  \"http://id:pass@proxysrv:port/\";" >> /etc/apt/apt.conf'
+      sudo bash -c 'echo "Acquire::https::proxy \"http://id:pass@proxysrv:port/\";" >> /etc/apt/apt.conf'
+    #+end_src
+  - Wget
+    - ~/etc/wgetrc~ でproxyを検索して記載
+  - snap
+    #+begin_src sh
+      sudo snap set system proxy.http=${HTTP_PROXY}
+      sudo snap set system proxy.https=${HTTPS_PROXY}
+    #+end_src
 
 ** update & upgrade & install
 #+begin_src sh
