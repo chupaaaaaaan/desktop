@@ -104,7 +104,7 @@ see below:
       cat << EOF > ${HOME}/.docker/config.json
   {
     "auths": {},
-    "detachKeys": "ctrl-\\"
+    "detachKeys": "ctrl-\\\\"
   }
   EOF
 #+end_src
