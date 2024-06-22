@@ -93,7 +93,22 @@
 #+end_src
 
 ** Docker CE
-see https://docs.docker.com/engine/install/ubuntu/
+see below:
+- [ ] https://docs.docker.com/engine/install/ubuntu/
+- [ ] https://docs.docker.com/engine/install/linux-postinstall/
+- [ ] https://qiita.com/dkoide/items/ca1f4549dc426eaf3735
+  - for proxy setting
+
+#+begin_src sh
+  mkdir -p ${HOME}/.docker &&
+      : > ${HOME}/.docker/config.json &&
+      cat << EOF > ${HOME}/.docker/config.json
+  {
+    "auths": {},
+    "detachKeys": "ctrl-\\"
+  }
+  EOF
+#+end_src
 
 ** Emacs 29
 #+begin_src sh
