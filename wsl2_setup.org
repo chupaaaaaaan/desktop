@@ -179,7 +179,8 @@ see below:
   wget -q -O- https://get-ghcup.haskell.org | sh &&
       : > ${HOME}/.bash_profile.d/ghcup &&
       echo '[ -f ${HOME}/.ghcup/env ] && . ${HOME}/.ghcup/env' >> ${HOME}/.bash_profile.d/ghcup &&
-      . ${HOME}/.bash_profile.d/ghcup
+      . ${HOME}/.bash_profile.d/ghcup &&
+      wget -q -O ${HOME}/.local/share/bash-completion/completions/ghcup.bash https://raw.githubusercontent.com/haskell/ghcup-hs/refs/heads/master/scripts/shell-completions/bash
 #+end_src
 
 #+begin_src sh
