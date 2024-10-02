@@ -39,7 +39,6 @@
            connect-proxy \
            curl \
            firefox \
-           fonts-ricty-diminished \
            git \
            graphviz \
            gron \
@@ -75,11 +74,19 @@
   
 ** dotfiles
 #+begin_src sh
-  git clone https://github.com/chupaaaaaaan/dotfiles.git .dotfiles &&
+  git clone https://github.com/chupaaaaaaan/dotfiles.git ${HOME}/.dotfiles &&
       bash ${HOME}/.dotfiles/deploy.bash &&
       rm -f ${HOME}/.profile &&
       ln -s ${HOME}/.bash_profile ${HOME}/.profile &&
       . ${HOME}/.bash_profile
+#+end_src
+
+** GUI fonts
+#+begin_src sh
+  VER="v1.7.1"
+  wget -q -O /tmp/PlemolJP_${VER}.zip https://github.com/yuru7/PlemolJP/releases/download/v1.7.1/PlemolJP_${VER}.zip &&
+      unzip -u -d /tmp /tmp/PlemolJP_${VER}.zip &&
+      cp -r /tmp/PlemolJP_${VER}/PlemolJPConsole ${HOME}/.local/share/fonts
 #+end_src
 
 ** locale (Japan)
