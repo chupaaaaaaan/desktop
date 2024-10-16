@@ -239,18 +239,23 @@ see below:
 #+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
+
+最初にVirtualbox 7.0とExtension Packを入れておく。
+https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-downloads.html
+
 #+begin_src sh
   wget -q -O- https://apt.releases.hashicorp.com/gpg | sudo apt-key add - &&
       sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
-      sudo apt -y install vagrant=$(vagrant.exe --version | cut -d' ' -f2 | tr -d '\r') &&
+      sudo apt -y install vagrant &&
       : > ${HOME}/.bash_profile.d/vagrant &&
       echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> ${HOME}/.bash_profile.d/vagrant &&
       echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ${HOME}/.bash_profile.d/vagrant &&
       . ${HOME}/.bash_profile.d/vagrant &&
       vagrant plugin install virtualbox_WSL2 &&
       vagrant plugin install vagrant-hosts &&
-      vagrant plugin install vagrant-disksize
+      vagrant plugin install vagrant-disksize &&
+      vagrant plugin install vagrant-vbguest
 #+end_src
 
 ** go
