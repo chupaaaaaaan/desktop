@@ -29,6 +29,18 @@
       sudo snap set system proxy.https=${HTTPS_PROXY}
     #+end_src
 
+** create directries
+#+begin_src sh
+  mkdir -p ~/.bash_profile.d
+  mkdir -p ~/.bashrc.d
+  mkdir -p ~/.local/bin
+  mkdir -p ~/.local/share/tools
+  mkdir -p ~/.local/share/applications
+  mkdir -p ~/.local/share/bash-completion/completions
+  mkdir -p ~/.local/share/fonts
+  mkdir -p ~/bin
+#+end_src
+
 ** update & upgrade & install
 #+begin_src sh
   sudo apt update &&
@@ -71,6 +83,13 @@
            x11-xkb-utils \
            zip \
            zlib1g-dev
+#+end_src
+
+** git
+#+begin_src sh
+  # git clone https://github.com/git/git.git
+  wget -q -O ~/.local/share/bash-completion/completions/git.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+  wget -q -O ~/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 #+end_src
 
 ** dotfiles
@@ -256,6 +275,12 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
       vagrant plugin install vagrant-hosts &&
       vagrant plugin install vagrant-disksize &&
       vagrant plugin install vagrant-vbguest
+#+end_src
+
+** kubernetes
+#+begin_src sh
+  # git clone https://github.com/jonmosco/kube-ps1.git
+  wget -q -O ~/.local/share/tools/kube-ps1.sh                    https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
 #+end_src
 
 ** go
