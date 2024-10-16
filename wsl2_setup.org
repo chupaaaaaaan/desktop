@@ -18,8 +18,8 @@
     #+end_src
   - APT
     #+begin_src sh
-      sudo bash -c 'echo "Acquire::http::proxy  \"http://id:pass@proxysrv:port/\";" >> /etc/apt/apt.conf'
-      sudo bash -c 'echo "Acquire::https::proxy \"http://id:pass@proxysrv:port/\";" >> /etc/apt/apt.conf'
+      sudo bash -c "echo 'Acquire::http::proxy \"${HTTP_PROXY}\";' >> /etc/apt/apt.conf"
+      sudo bash -c "echo 'Acquire::https::proxy \"${HTTP_PROXY}\";' >> /etc/apt/apt.conf"
     #+end_src
   - Wget
     - ~/etc/wgetrc~ でproxyを検索して記載
