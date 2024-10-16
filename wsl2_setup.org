@@ -135,7 +135,10 @@ see below:
       sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
       : > ${HOME}/.bashrc.d/emacs &&
       echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ${HOME}/.bashrc.d/emacs &&
-      . ${HOME}/.bashrc.d/emacs
+      . ${HOME}/.bashrc.d/emacs &&
+      git clone git@github.com:chupaaaaaaan/emacs.d.git ${HOME}/.emacs.d &&
+      mkdir -p ${HOME}/.local/elisp/local
+
 #+end_src
 
 ** Dropbox
