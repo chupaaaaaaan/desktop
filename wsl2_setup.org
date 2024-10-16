@@ -83,11 +83,12 @@
 #+end_src
 
 ** GUI fonts
+NAME: Ricty ShinDiminished
 #+begin_src sh
-  VER="v1.7.1"
-  wget -q -O /tmp/PlemolJP_${VER}.zip https://github.com/yuru7/PlemolJP/releases/download/v1.7.1/PlemolJP_${VER}.zip &&
-      unzip -u -d /tmp /tmp/PlemolJP_${VER}.zip &&
-      cp -r /tmp/PlemolJP_${VER}/PlemolJPConsole ${HOME}/.local/share/fonts
+  VER="LASB-230228"
+  wget -q -O /tmp/RictyShinDiminished-${VER}.zip https://www.structure.kais.kyoto-u.ac.jp/lab/RictyShinDiminished-${VER}.zip &&
+      unzip -u -d /tmp /tmp/RictyShinDiminished-${VER}.zip &&
+      cp -r /tmp/RictyShinDiminished-${VER} ${HOME}/.local/share/fonts/RictyShinDiminished
 #+end_src
 
 ** locale (Japan)
