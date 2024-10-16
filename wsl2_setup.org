@@ -40,6 +40,7 @@
            curl \
            firefox \
            git \
+           git-delta \
            graphviz \
            gron \
            jq \
@@ -71,7 +72,7 @@
            zip \
            zlib1g-dev
 #+end_src
-  
+
 ** dotfiles
 #+begin_src sh
   git clone https://github.com/chupaaaaaaan/dotfiles.git ${HOME}/.dotfiles &&
