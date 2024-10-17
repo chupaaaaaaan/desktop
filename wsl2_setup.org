@@ -104,7 +104,7 @@
 #+end_src
 
 ** GUI fonts
-NAME: Ricty ShinDiminished
+#+NAME: Ricty ShinDiminished
 #+begin_src sh
   VER="LASB-230228"
   wget -q -O /tmp/RictyShinDiminished-${VER}.zip https://www.structure.kais.kyoto-u.ac.jp/lab/RictyShinDiminished-${VER}.zip &&
@@ -288,7 +288,7 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 ** go
 #+begin_src sh
   : > ${HOME}/.bash_profile.d/go &&
-      echo 'export GOPATH="$HOME/.local/go"'   >> ${HOME}/.bash_profile.d/go &&
+      echo 'export GOPATH="$HOME/.local/go"' >> ${HOME}/.bash_profile.d/go &&
       echo 'export PATH="$GOPATH/bin:$PATH"' >> ${HOME}/.bash_profile.d/go &&
       . ${HOME}/.bash_profile.d/go &&
       sudo rm -rf "$GOPATH" &&
