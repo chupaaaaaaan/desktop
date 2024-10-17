@@ -18,11 +18,14 @@
     #+end_src
   - APT
     #+begin_src sh
-      sudo bash -c "echo 'Acquire::http::proxy \"${HTTP_PROXY}\";' >> /etc/apt/apt.conf"
-      sudo bash -c "echo 'Acquire::https::proxy \"${HTTP_PROXY}\";' >> /etc/apt/apt.conf"
+      echo "Acquire::http::proxy \"${HTTP_PROXY}\";" | sudo tee -a /etc/apt/apt.conf > /dev/null
+      echo "Acquire::https::proxy \"${HTTP_PROXY}\";" | sudo tee -a /etc/apt/apt.conf > /dev/null
     #+end_src
   - Wget
-    - ~/etc/wgetrc~ でproxyを検索して記載
+    #+begin_src sh
+      echo "http_proxy = ${HTTP_PROXY}" | sudo tee -a /etc/wgetrc > /dev/null
+      echo "https_proxy = ${HTTP_PROXY}" | sudo tee -a /etc/wgetrc > /dev/null
+    #+end_src
   - snap
     #+begin_src sh
       sudo snap set system proxy.http=${HTTP_PROXY}
