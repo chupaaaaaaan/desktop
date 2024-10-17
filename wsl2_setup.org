@@ -34,14 +34,14 @@
 
 ** create directries
 #+begin_src sh
-  mkdir -p ~/.bash_profile.d
-  mkdir -p ~/.bashrc.d
-  mkdir -p ~/.local/bin
-  mkdir -p ~/.local/share/tools
-  mkdir -p ~/.local/share/applications
-  mkdir -p ~/.local/share/bash-completion/completions
-  mkdir -p ~/.local/share/fonts
-  mkdir -p ~/bin
+  mkdir -p ${HOME}/.bash_profile.d
+  mkdir -p ${HOME}/.bashrc.d
+  mkdir -p ${HOME}/.local/bin
+  mkdir -p ${HOME}/.local/share/tools
+  mkdir -p ${HOME}/.local/share/applications
+  mkdir -p ${HOME}/.local/share/bash-completion/completions
+  mkdir -p ${HOME}/.local/share/fonts
+  mkdir -p ${HOME}/bin
 #+end_src
 
 ** update & upgrade & install
@@ -91,8 +91,8 @@
 ** git
 #+begin_src sh
   # git clone https://github.com/git/git.git
-  wget -q -O ~/.local/share/bash-completion/completions/git.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
-  wget -q -O ~/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+  wget -q -O ${HOME}/.local/share/bash-completion/completions/git.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+  wget -q -O ${HOME}/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 #+end_src
 
 ** dotfiles
@@ -283,7 +283,7 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 ** kubernetes
 #+begin_src sh
   # git clone https://github.com/jonmosco/kube-ps1.git
-  wget -q -O ~/.local/share/tools/kube-ps1.sh                    https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
+  wget -q -O ${HOME}/.local/share/tools/kube-ps1.sh                    https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
 #+end_src
 
 ** go
