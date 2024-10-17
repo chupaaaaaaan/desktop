@@ -55,7 +55,6 @@
            curl \
            firefox \
            git \
-           git-delta \
            graphviz \
            gron \
            jq \
