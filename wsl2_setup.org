@@ -94,15 +94,6 @@
   wget -q -O ${HOME}/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 #+end_src
 
-** dotfiles
-#+begin_src sh
-  git clone https://github.com/chupaaaaaaan/dotfiles.git ${HOME}/.dotfiles &&
-      bash ${HOME}/.dotfiles/deploy.bash &&
-      rm -f ${HOME}/.profile &&
-      ln -s ${HOME}/.bash_profile ${HOME}/.profile &&
-      . ${HOME}/.bash_profile
-#+end_src
-
 ** GUI fonts
 #+NAME: Ricty ShinDiminished
 #+begin_src sh
@@ -174,6 +165,15 @@ see below:
       chmod 700 ${HOME}/.ssh &&
       cp ${HOME}/Dropbox/clients/dotssh/* ${HOME}/.ssh &&
       chmod 400 ${HOME}/.ssh/*.key
+#+end_src
+
+** dotfiles
+#+begin_src sh
+  git clone git@github.com:chupaaaaaaan/dotfiles.git ${HOME}/.dotfiles &&
+      bash ${HOME}/.dotfiles/deploy.bash &&
+      rm -f ${HOME}/.profile &&
+      ln -s ${HOME}/.bash_profile ${HOME}/.profile &&
+      . ${HOME}/.bash_profile
 #+end_src
 
 ** Emacs 29
