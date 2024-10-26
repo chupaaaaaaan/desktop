@@ -149,19 +149,6 @@ see below:
   EOF
 #+end_src
 
-** Emacs 29
-#+begin_src sh
-  sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
-      sudo apt update &&
-      sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
-      : > ${HOME}/.bashrc.d/emacs &&
-      echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ${HOME}/.bashrc.d/emacs &&
-      . ${HOME}/.bashrc.d/emacs &&
-      git clone git@github.com:chupaaaaaaan/emacs.d.git ${HOME}/.emacs.d &&
-      mkdir -p ${HOME}/.local/elisp/local
-
-#+end_src
-
 ** Dropbox
 #+begin_src sh
   wget -q -O- https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
@@ -187,6 +174,19 @@ see below:
       chmod 700 ${HOME}/.ssh &&
       cp ${HOME}/Dropbox/clients/dotssh/* ${HOME}/.ssh &&
       chmod 400 ${HOME}/.ssh/*.key
+#+end_src
+
+** Emacs 29
+#+begin_src sh
+  sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
+      sudo apt update &&
+      sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
+      : > ${HOME}/.bashrc.d/emacs &&
+      echo "alias emacs='setxkbmap -layout jp && XMODIFIERS=@im=none emacs >> /dev/null 2>&1 &'" > ${HOME}/.bashrc.d/emacs &&
+      . ${HOME}/.bashrc.d/emacs &&
+      git clone git@github.com:chupaaaaaaan/emacs.d.git ${HOME}/.emacs.d &&
+      mkdir -p ${HOME}/.local/elisp/local
+
 #+end_src
 
 ** Input method
