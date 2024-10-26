@@ -56,7 +56,8 @@
             mingw-w64-x86_64-jq \
             mingw-w64-x86_64-toolchain \
             rsync \
-            unzip
+            unzip \
+            vim
    #+end_src
 
 *** パッケージグループ以外で明示的にインストールしたパッケージ一覧
