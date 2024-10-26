@@ -3,52 +3,63 @@
    - MSYS2のインストール
      https://www.msys2.org/
 
-   - ショートカットのオプションで、「管理者として実行」にチェックを入れる
+   - ~C:\msys64\mingw64.exe~ のプロパティで、「管理者として実行」にチェックを入れる
 
-   - シンボリックリンクの作成オプション
-     C:\msys64\msys2_shell.cmd
+   - ~C:\msys64\mingw64.ini~  を以下のように変更（シンボリックリンクの作成、WindowsのPath継承）
+
+     #+name: 変更前
      #+begin_src sh
-       rem set MSYS=winsymlinks:nativestrict
-       #=>
-       set MSYS=winsymlinks:nativestrict
+       #MSYS=winsymlinks:nativestrict
+       #MSYS=error_start:mingw64/bin/qtcreator.exe|-debug|<process-id>
+       #CHERE_INVOKING=1
+       #MSYS2_PATH_TYPE=inherit
+       MSYSTEM=MINGW64
      #+end_src
 
-   - PATH環境変数の継承オプション（Windows環境変数を継承）
-     C:\msys64\msys2_shell.cmd
+     #+name: 変更後
      #+begin_src sh
-       rem set MSYS2_PATH_TYPE=inherit
-       #=>
-       set MSYS2_PATH_TYPE=inherit
+       MSYS=winsymlinks:nativestrict
+       #MSYS=error_start:mingw64/bin/qtcreator.exe|-debug|<process-id>
+       #CHERE_INVOKING=1
+       MSYS2_PATH_TYPE=inherit
+       MSYSTEM=MINGW64
      #+end_src
+
+   - ~C:\msys64\etc\nsswitch.conf~  を以下のように変更（ホームディレクトリの変更）
+
+     #+name: 変更前
+     #+begin_src sh
+       db_home: cygwin desc
+     #+end_src
+
+     #+name: 変更後
+     #+begin_src sh
+       db_home: windows cygwin desc
+     #+end_src
+
+     - (参考) [[https://yanor.net/wiki/?Windows-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/MinGW-MSYS/MSYS2%E3%81%AEOpenSSH%E3%81%A7%E3%81%AE%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E6%89%B1%E3%81%84][MSYS2のOpenSSHでのホームディレクトリの扱い]]
+     - (参考) [[https://cygwin.com/cygwin-ug-net/ntsec.html#ntsec-mapping-passwdinfo][POSIX accounts, permission, and security]]
 
 ** パッケージインストール
 
    #+begin_src sh
      pacman -Syu
      pacman -Su
-     pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 
-     pacman -S git
-     pacman -S unzip
-     pacman -S rsync
-     pacman -S mingw-w64-x86_64-emacs
-     pacman -S mingw-w64-x86_64-gnupg
-     pacman -S mingw-w64-x86_64-jq
+     pacman -S \
+            base-devel \
+            git \
+            mingw-w64-x86_64-ag \
+            mingw-w64-x86_64-delta \
+            mingw-w64-x86_64-emacs \
+            mingw-w64-x86_64-gnupg \
+            mingw-w64-x86_64-jq \
+            mingw-w64-x86_64-toolchain \
+            rsync \
+            unzip
    #+end_src
 
 *** パッケージグループ以外で明示的にインストールしたパッケージ一覧
-    pacman -Q -e | grep -v -f <(pacman -Q --group base-devel mingw-w64-x86_64-toolchain | cut -d' ' -f2)
-
-** ホームディレクトリの設定
-
-   - https://yanor.net/wiki/?Windows-%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/MinGW-MSYS/MSYS2%E3%81%AEOpenSSH%E3%81%A7%E3%81%AE%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%81%AE%E6%89%B1%E3%81%84
-     #+begin_quote
-     Cygwin（およびその派生であるMSYS2）では/etc/nsswitch.confで以下のように指定すると、ホームディレクトリがWindowsのユーザプロファイルフォルダー（C:\Users\USERNAMEのような%USERPROFILE%）と同じになる。
-     または%Hでユーザプロファイルフォルダーを指定できるので、/%H/Dropbox/msys2 のようにユーザ名をハードコーディングせずに済む。
-     #+end_quote
-
-   - https://cygwin.com/cygwin-ug-net/ntsec.html#ntsec-mapping-passwdinfo
-
-     #+begin_src sh
-       db_home: windows cygwin desc
-     #+end_src
+#+begin_src sh
+  pacman -Q -e | grep -v -f <(pacman -Q --group base-devel mingw-w64-x86_64-toolchain | cut -d' ' -f2)
+#+end_src
