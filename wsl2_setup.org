@@ -276,12 +276,6 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
       vagrant plugin install vagrant-vbguest
 #+end_src
 
-** kubernetes
-#+begin_src sh
-  # git clone https://github.com/jonmosco/kube-ps1.git
-  wget -q -O ${HOME}/.local/share/tools/kube-ps1.sh                    https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
-#+end_src
-
 ** go
 #+begin_src sh
   : > ${HOME}/.bash_profile.d/go &&
