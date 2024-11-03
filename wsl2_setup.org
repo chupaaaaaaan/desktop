@@ -145,7 +145,7 @@ see below:
   wget -q -O- https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
       wget -O ${HOME}/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
       chmod +x ${HOME}/bin/dropbox.py &&
-      dropbox.py autostart y &&
+      ${HOME}/bin/dropbox.py autostart y &&
       : > ${HOME}/.bashrc.d/dropbox &&
       echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ${HOME}/.bashrc.d/dropbox &&
       . ${HOME}/.bashrc.d/dropbox
