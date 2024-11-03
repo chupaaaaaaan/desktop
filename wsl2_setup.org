@@ -78,7 +78,7 @@
            manpages-ja \
            manpages-ja-dev \
            peco \
-           silversearcher-ag \
+           ripgrep \
            tk-dev \
            unzip \
            uuid-dev \
