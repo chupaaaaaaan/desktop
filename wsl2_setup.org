@@ -146,25 +146,20 @@ see below:
       wget -O ${HOME}/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
       chmod +x ${HOME}/bin/dropbox.py &&
       ${HOME}/bin/dropbox.py autostart y &&
+      ${HOME}/bin/dropbox.py start &&
       : > ${HOME}/.bashrc.d/dropbox &&
-      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ${HOME}/.bashrc.d/dropbox &&
-      . ${HOME}/.bashrc.d/dropbox
+      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ${HOME}/.bashrc.d/dropbox
 #+end_src
 
 #+begin_src sh
   dropbox.py status #=> 同期状況確認
 #+end_src
 
-#+begin_src sh
-  ln -s ${HOME}/Dropbox/org ${HOME}/org
-#+end_src
-
 ** ssh
 #+begin_src sh
   mkdir ${HOME}/.ssh &&
       chmod 700 ${HOME}/.ssh &&
-      cp ${HOME}/Dropbox/clients/dotssh/* ${HOME}/.ssh &&
-      chmod 400 ${HOME}/.ssh/*.key
+      cp ${HOME}/Dropbox/clients/dotssh/* ${HOME}/.ssh
 #+end_src
 
 ** dotfiles
