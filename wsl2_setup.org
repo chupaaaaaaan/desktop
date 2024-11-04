@@ -280,10 +280,11 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 #+begin_src sh
   : > ${HOME}/.bash_profile.d/go &&
       echo 'export GOPATH="$HOME/.local/go"' >> ${HOME}/.bash_profile.d/go &&
-      echo 'export PATH="$GOPATH/bin:$PATH"' >> ${HOME}/.bash_profile.d/go &&
+      echo 'export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"' >> ${HOME}/.bash_profile.d/go &&
       . ${HOME}/.bash_profile.d/go &&
-      sudo rm -rf "$GOPATH" &&
-      wget -q -O- https://go.dev/dl/go1.21.3.linux-amd64.tar.gz | tar -C "${GOPATH%/go}" -xzf -
+      ( GOVERSION=1.23.2 &&
+            sudo rm -rf /usr/local/go &&
+            wget -q -O- https://go.dev/dl/go${GOVERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - )
 #+end_src
 
 ** Python
