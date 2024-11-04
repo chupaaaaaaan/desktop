@@ -77,7 +77,6 @@
            libtinfo5 \
            manpages-ja \
            manpages-ja-dev \
-           peco \
            ripgrep \
            tk-dev \
            unzip \
@@ -301,6 +300,12 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 #+end_src
 
 ** コマンドラインツール類
+*** peco
+#+begin_src sh
+  wget -q -O- https://github.com/peco/peco/releases/latest/download/peco_linux_amd64.tar.gz | tar -C /tmp -xzf - &&
+      mv /tmp/peco_linux_amd64/peco ${HOME}/.local/bin
+#+end_src
+
 *** oj (competitive programming)
 #+begin_src sh
   python3 -m pip install --user online-judge-tools
