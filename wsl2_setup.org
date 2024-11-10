@@ -170,6 +170,19 @@ see below:
       . ${HOME}/.bash_profile
 #+end_src
 
+** Node
+#+begin_src sh
+  wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
+      : > ${HOME}/.bashrc.d/node &&
+      echo 'export NVM_DIR=$HOME/.nvm'                                       >> ${HOME}/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh'                   >> ${HOME}/.bashrc.d/node &&
+      echo '[ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion' >> ${HOME}/.bashrc.d/node &&
+      echo '[ "none" = $(nvm current) ] && nvm install node'                 >> ${HOME}/.bashrc.d/node &&
+      . ${HOME}/.bashrc.d/node &&
+      nvm install node --reinstall-packages-from=current &&
+      nvm alias default node
+#+end_src
+
 ** Emacs 29
 #+begin_src sh
   sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
@@ -227,19 +240,6 @@ see below:
       : > ${HOME}/.bashrc.d/stack &&
       echo 'eval "$(stack --bash-completion-script stack)"' >> ${HOME}/.bashrc.d/stack &&
       . ${HOME}/.bashrc.d/stack
-#+end_src
-
-** Node
-#+begin_src sh
-  wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-      : > ${HOME}/.bashrc.d/node &&
-      echo 'export NVM_DIR=$HOME/.nvm'                                       >> ${HOME}/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh'                   >> ${HOME}/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion' >> ${HOME}/.bashrc.d/node &&
-      echo '[ "none" = $(nvm current) ] && nvm install node'                 >> ${HOME}/.bashrc.d/node &&
-      . ${HOME}/.bashrc.d/node &&
-      nvm install node --reinstall-packages-from=current &&
-      nvm alias default node
 #+end_src
 
 ** Elm
