@@ -201,30 +201,27 @@ see below:
 ** Input method
 #+begin_src sh
   sudo apt update &&
-      sudo apt -y install fcitx-mozc &&
-      dbus-uuidgen | sudo tee /var/lib/dbus/machine-id > /dev/null 2>&1 &&
-      im-config -n fcitx &&
-      : > ${HOME}/.bash_profile.d/fcitx-mozc &&
-      cat << EOF > ${HOME}/.bash_profile.d/fcitx-mozc
-  export GTK_IM_MODULE=fcitx
-  export QT_IM_MODULE=fcitx
-  export XMODIFIERS=@im=fcitx
-  export DefaultIMModule=fcitx
-  if [ \$SHLVL = 1 ] ; then
-      fcitx-autostart > /dev/null 2>&1
-      xset -r 49  > /dev/null 2>&1
-  fi
-
-  export NO_AT_BRIDGE=1
-  EOF
-  . ${HOME}/.bash_profile.d/fcitx-mozc
+      sudo apt -y install fcitx5-mozc &&
+      im-config -n fcitx5 &&
+      : > ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export GTK_IM_MODULE=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export QT_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export XMODIFIERS=@im=fcitx'                                    >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export DefaultIMModule=fcitx'                                   >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -d > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && xset -r 49  > /dev/null 2>&1'                 >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export NO_AT_BRIDGE=1'                                          >> ${HOME}/.bash_profile.d/fcitx5 &&
+      . ${HOME}/.bash_profile.d/fcitx5 &&
+      fcitx5-configtool
 #+end_src
 
-#+begin_src sh
-  fcitx-configtool
-  #=> 「入力メソッド」の一番上を、「キーボード - 日本語」にする。
-  #=> 「Ctrl + Shift + S」のホットキーを無効化する。
-#+end_src
+- 「入力メソッド」タブ
+  - 「現在の入力メソッド」の一番上を、「キーボード - 日本語」にする
+- 「グローバルオプション」タブ
+  - 「入力メソッドの切り換え」を無効化する
+  - 「入力メソッドを有効にする」を「変換」キーにする
+  - 「入力メソッドをオフにする」を「無変換」キーにする
+  - 「Ctrl + Shift + S」のホットキーを無効化する
 
 ** Haskell
 #+begin_src sh
