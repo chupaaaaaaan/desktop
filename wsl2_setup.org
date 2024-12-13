@@ -233,10 +233,11 @@ see below:
 #+end_src
 
 #+begin_src sh
-  stack config set system-ghc --global true &&
-      : > ${HOME}/.bashrc.d/stack &&
+  : > ${HOME}/.bashrc.d/stack &&
       echo 'eval "$(stack --bash-completion-script stack)"' >> ${HOME}/.bashrc.d/stack &&
-      . ${HOME}/.bashrc.d/stack
+      . ${HOME}/.bashrc.d/stack &&
+      stack config set install-ghc --global false &&
+      stack config set  system-ghc --global true
 #+end_src
 
 ** Elm
