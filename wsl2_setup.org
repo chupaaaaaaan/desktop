@@ -79,6 +79,7 @@
            manpages-ja-dev \
            ripgrep \
            tk-dev \
+           tmux \
            unzip \
            uuid-dev \
            x11-xkb-utils \
