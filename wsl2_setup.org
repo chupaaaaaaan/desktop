@@ -82,6 +82,7 @@
            tmux \
            unzip \
            uuid-dev \
+           wslu \
            x11-xkb-utils \
            zip \
            zlib1g-dev
