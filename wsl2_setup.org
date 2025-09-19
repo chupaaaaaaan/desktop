@@ -63,19 +63,19 @@
            libbz2-dev \
            libdb-dev \
            libffi-dev \
-           libffi7 \
+           libffi8 \
            libgdbm-dev \
            libgmp-dev \
            libgmp10 \
            liblzma-dev \
            libncurses-dev \
-           libncurses5 \
+           libncurses6 \
            libncursesw5-dev \
            libpq-dev \
            libreadline-dev \
            libsqlite3-dev \
            libssl-dev \
-           libtinfo5 \
+           libtinfo6 \
            manpages-ja \
            manpages-ja-dev \
            ripgrep \
