@@ -239,11 +239,11 @@ EOF
   sudo apt update &&
       sudo apt -y install fcitx5-mozc &&
       : > ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export GTK_IM_MODULE=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export QT_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export XMODIFIERS=@im=fcitx'                                    >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -d > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo '[ $SHLVL = 1 ] && xset -r 49 > /dev/null 2>&1'                  >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export GTK_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export QT_IM_MODULE=fcitx'                                       >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export XMODIFIERS=@im=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -dr > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && xset -r 49 > /dev/null 2>&1'                   >> ${HOME}/.bash_profile.d/fcitx5 &&
       . ${HOME}/.bash_profile.d/fcitx5 &&
       fcitx5-configtool
 #+end_src
