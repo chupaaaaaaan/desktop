@@ -207,21 +207,19 @@ see below:
 #+end_src
 
 #+begin_src sh
-  sudo tee /usr/local/bin/emacs-noime >/dev/null <<EOF
+{ sudo tee /usr/local/bin/emacs-noime >/dev/null <<EOF
 #!/usr/bin/env bash
 export GTK_IM_MODULE=gtk-im-context-simple
 export XMODIFIERS='@im=none'
 unset QT_IM_MODULE
 exec /usr/bin/emacs
 EOF
-
-  sudo chmod +x /usr/local/bin/emacs-noime
-
-  sudo tee /usr/local/share/applications/emacs-noime.desktop > /dev/null <<EOF
+} && sudo chmod +x /usr/local/bin/emacs-noime &&
+{ sudo tee /usr/local/share/applications/emacs-noime.desktop > /dev/null <<EOF
 [Desktop Entry]
 Type=Application
 Version=1.0
-Name=Emacs (WSL, No IME)
+Name=Emacs (GUI, No IME)
 GenericName=Text Editor
 Comment=GNU Emacs without fcitx/ibus env for stability under WSLg
 Exec=/usr/local/bin/emacs-noime %F
@@ -232,19 +230,19 @@ Categories=Utility;Development;TextEditor;
 StartupNotify=true
 Keywords=Text;Editor;
 EOF
+}
 #+end_src
 
 ** Input method
 #+begin_src sh
   sudo apt update &&
       sudo apt -y install fcitx5-mozc &&
-      im-config -n fcitx5 &&
       : > ${HOME}/.bash_profile.d/fcitx5 &&
       echo 'export GTK_IM_MODULE=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
       echo 'export QT_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
       echo 'export XMODIFIERS=@im=fcitx'                                    >> ${HOME}/.bash_profile.d/fcitx5 &&
       echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -d > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo '[ $SHLVL = 1 ] && xset -r 49  > /dev/null 2>&1'                 >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && xset -r 49 > /dev/null 2>&1'                  >> ${HOME}/.bash_profile.d/fcitx5 &&
       . ${HOME}/.bash_profile.d/fcitx5 &&
       fcitx5-configtool
 #+end_src
