@@ -42,6 +42,7 @@
   mkdir -p ${HOME}/.local/share/bash-completion/completions
   mkdir -p ${HOME}/.local/share/fonts
   mkdir -p ${HOME}/bin
+  sudo mkdir -p /usr/local/share/applications
 #+end_src
 
 ** update & upgrade & install
