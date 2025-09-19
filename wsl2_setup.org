@@ -277,6 +277,10 @@ EOF
       stack config set  system-ghc --global true
 #+end_src
 
+#+begin_src sh
+  cabal update && cabal install hoogle && hoogle generate
+#+end_src
+
 ** Elm
 #+begin_src sh
   npm install -g http-server elm elm-format elm-oracle elm-test @elm-tooling/elm-language-server
