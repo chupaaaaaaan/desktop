@@ -288,10 +288,7 @@ EOF
 
 ** Intellij IDEA
 #+begin_src sh
-  sudo snap install intellij-idea-ultimate --classic &&
-      : > ${HOME}/.bashrc.d/idea &&
-      echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ${HOME}/.bashrc.d/idea &&
-      . ${HOME}/.bashrc.d/idea
+  sudo snap install intellij-idea-ultimate --classic
 #+end_src
 
 - ライセンス情報を入力後、設定を同期する
