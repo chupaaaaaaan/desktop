@@ -186,19 +186,19 @@ see below:
       nvm alias default node
 #+end_src
 
-** Emacs 29
+** Emacs 30
 #+begin_src sh
   sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
       sudo apt update &&
       sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
       wget -q -P ${HOME}/.local/share/tools/ https://raw.githubusercontent.com/akermu/emacs-libvterm/refs/heads/master/etc/emacs-vterm-bash.sh &&
       : > ${HOME}/.bashrc.d/emacs &&
-      echo "[ -s ~/.local/share/tools/emacs-vterm-bash.sh ] &&. ~/.local/share/tools/emacs-vterm-bash.sh" >> ${HOME}/.bashrc.d/emacs &&
-      echo "if [ -n \"\$EMACS_VTERM_PATH\" ]; then"                                                       >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export GTK_IM_MODULE=fcitx"                                                                 >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export QT_IM_MODULE=fcitx"                                                                  >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export XMODIFIERS='@im=fcitx'"                                                              >> ${HOME}/.bashrc.d/emacs &&
-      echo "fi"                                                                                           >> ${HOME}/.bashrc.d/emacs &&
+      echo "[ -s ~/.local/share/tools/emacs-vterm-bash.sh ] && . ~/.local/share/tools/emacs-vterm-bash.sh" >> ${HOME}/.bashrc.d/emacs &&
+      echo "if [ -n \"\$EMACS_VTERM_PATH\" ]; then"                                                        >> ${HOME}/.bashrc.d/emacs &&
+      echo "  export GTK_IM_MODULE=fcitx"                                                                  >> ${HOME}/.bashrc.d/emacs &&
+      echo "  export QT_IM_MODULE=fcitx"                                                                   >> ${HOME}/.bashrc.d/emacs &&
+      echo "  export XMODIFIERS='@im=fcitx'"                                                               >> ${HOME}/.bashrc.d/emacs &&
+      echo "fi"                                                                                            >> ${HOME}/.bashrc.d/emacs &&
       . ${HOME}/.bashrc.d/emacs
 #+end_src
 
