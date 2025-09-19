@@ -211,6 +211,7 @@ see below:
 #!/usr/bin/env bash
 export GTK_IM_MODULE=gtk-im-context-simple
 export XMODIFIERS='@im=none'
+unset QT_IM_MODULE
 exec /usr/bin/emacs
 EOF
 
@@ -239,6 +240,9 @@ EOF
       sudo apt -y install fcitx5-mozc &&
       im-config -n fcitx5 &&
       : > ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export GTK_IM_MODULE=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export QT_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
+      echo 'export XMODIFIERS=@im=fcitx'                                    >> ${HOME}/.bash_profile.d/fcitx5 &&
       echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -d > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
       echo '[ $SHLVL = 1 ] && xset -r 49  > /dev/null 2>&1'                 >> ${HOME}/.bash_profile.d/fcitx5 &&
       . ${HOME}/.bash_profile.d/fcitx5 &&
@@ -252,6 +256,10 @@ EOF
   - 「入力メソッドを有効にする」を「変換」キーにする
   - 「入力メソッドをオフにする」を「無変換」キーにする
   - 「Ctrl + Shift + S」のホットキーを無効化する
+- 「アドオン」タブ
+  - 「X Input Method フロントエンド」の「設定」
+    - 「XIM で On The Spot スタイルを使う(再起動が必要)」にチェックを入れる
+- 設定変更したらfcitx5を再起動する
 
 ** Haskell
 #+begin_src sh
@@ -282,6 +290,8 @@ EOF
       echo "alias idea='setxkbmap -layout jp && intellij-idea-ultimate >> /dev/null 2>&1 &'" > ${HOME}/.bashrc.d/idea &&
       . ${HOME}/.bashrc.d/idea
 #+end_src
+
+- ライセンス情報を入力後、設定を同期する
 
 ** virtualbox/vagrant (only configuration for WSL2)
 
