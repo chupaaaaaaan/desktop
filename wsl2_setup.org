@@ -32,19 +32,6 @@
       sudo snap set system proxy.https=${HTTPS_PROXY}
     #+end_src
 
-** create directries
-#+begin_src sh
-  mkdir -p ${HOME}/.bash_profile.d
-  mkdir -p ${HOME}/.bashrc.d
-  mkdir -p ${HOME}/.local/bin
-  mkdir -p ${HOME}/.local/share/tools
-  mkdir -p ${HOME}/.local/share/applications
-  mkdir -p ${HOME}/.local/share/bash-completion/completions
-  mkdir -p ${HOME}/.local/share/fonts
-  mkdir -p ${HOME}/bin
-  sudo mkdir -p /usr/local/share/applications
-#+end_src
-
 ** update & upgrade & install
 #+begin_src sh
   sudo apt update &&
@@ -89,11 +76,18 @@
            zlib1g-dev
 #+end_src
 
+** dotfiles
+#+begin_src sh
+  git clone git@github.com:chupaaaaaaan/dotfiles.git ~/.dotfiles &&
+      bash ~/.dotfiles/deploy.bash &&
+      . ~/.bash_profile
+#+end_src
+
 ** git
 #+begin_src sh
   # git clone https://github.com/git/git.git
-  wget -q -O ${HOME}/.local/share/bash-completion/completions/git.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
-  wget -q -O ${HOME}/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+  wget -q -O ~/.local/share/bash-completion/completions/git.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+  wget -q -O ~/.local/share/tools/git-prompt.sh                  https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 #+end_src
 
 ** GUI fonts
@@ -102,7 +96,7 @@
   VER="LASB-230228"
   wget -q -O /tmp/RictyShinDiminished-${VER}.zip https://www.structure.kais.kyoto-u.ac.jp/lab/RictyShinDiminished-${VER}.zip &&
       unzip -u -d /tmp /tmp/RictyShinDiminished-${VER}.zip &&
-      cp -r /tmp/RictyShinDiminished-${VER} ${HOME}/.local/share/fonts/RictyShinDiminished
+      cp -r /tmp/RictyShinDiminished-${VER} ~/.local/share/fonts/RictyShinDiminished
 #+end_src
 
 ** locale (Japan)
@@ -132,9 +126,9 @@ see below:
   - for proxy setting
 
 #+begin_src sh
-  mkdir -p ${HOME}/.docker &&
-      : > ${HOME}/.docker/config.json &&
-      cat << EOF > ${HOME}/.docker/config.json
+  mkdir -p ~/.docker &&
+      : > ~/.docker/config.json &&
+      cat << EOF > ~/.docker/config.json
   {
     "auths": {},
     "detachKeys": "ctrl-\\\\"
@@ -145,12 +139,10 @@ see below:
 ** Dropbox
 #+begin_src sh
   wget -q -O- https://www.dropbox.com/download?plat=lnx.x86_64 | tar xzvf - &&
-      wget -O ${HOME}/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
-      chmod +x ${HOME}/bin/dropbox.py &&
-      ${HOME}/bin/dropbox.py autostart y &&
-      ${HOME}/bin/dropbox.py start &&
-      : > ${HOME}/.bashrc.d/dropbox &&
-      echo "dropbox.py status | grep -q \"Dropbox isn't running\!\" && dropbox.py start > /dev/null 2>&1" > ${HOME}/.bashrc.d/dropbox
+      wget -O ~/bin/dropbox.py https://www.dropbox.com/download?dl=packages/dropbox.py &&
+      chmod +x ~/bin/dropbox.py &&
+      ~/bin/dropbox.py autostart y &&
+      ~/bin/dropbox.py start
 #+end_src
 
 #+begin_src sh
@@ -159,29 +151,18 @@ see below:
 
 ** ssh
 #+begin_src sh
-  mkdir ${HOME}/.ssh &&
-      chmod 700 ${HOME}/.ssh &&
-      cp ${HOME}/Dropbox/clients/dotssh/* ${HOME}/.ssh
-#+end_src
-
-** dotfiles
-#+begin_src sh
-  git clone git@github.com:chupaaaaaaan/dotfiles.git ${HOME}/.dotfiles &&
-      bash ${HOME}/.dotfiles/deploy.bash &&
-      rm -f ${HOME}/.profile &&
-      ln -s ${HOME}/.bash_profile ${HOME}/.profile &&
-      . ${HOME}/.bash_profile
+  mkdir ~/.ssh &&
+      chmod 700 ~/.ssh &&
+      cp ~/Dropbox/clients/dotssh/* ~/.ssh
 #+end_src
 
 ** Node
 #+begin_src sh
   wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-      : > ${HOME}/.bashrc.d/node &&
-      echo 'export NVM_DIR=$HOME/.nvm'                                       >> ${HOME}/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh'                   >> ${HOME}/.bashrc.d/node &&
-      echo '[ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion' >> ${HOME}/.bashrc.d/node &&
-      echo '[ "none" = $(nvm current) ] && nvm install node'                 >> ${HOME}/.bashrc.d/node &&
-      . ${HOME}/.bashrc.d/node &&
+      export NVM_DIR=$HOME/.nvm &&
+      [ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh &&
+      [ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion &&
+      [ "none" = $(nvm current) ] && nvm install node &&
       nvm install node --reinstall-packages-from=current &&
       nvm alias default node
 #+end_src
@@ -191,20 +172,13 @@ see below:
   sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
       sudo apt update &&
       sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
-      wget -q -P ${HOME}/.local/share/tools/ https://raw.githubusercontent.com/akermu/emacs-libvterm/refs/heads/master/etc/emacs-vterm-bash.sh &&
-      : > ${HOME}/.bashrc.d/emacs &&
-      echo "[ -s ~/.local/share/tools/emacs-vterm-bash.sh ] && . ~/.local/share/tools/emacs-vterm-bash.sh" >> ${HOME}/.bashrc.d/emacs &&
-      echo "if [ -n \"\$EMACS_VTERM_PATH\" ]; then"                                                        >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export GTK_IM_MODULE=fcitx"                                                                  >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export QT_IM_MODULE=fcitx"                                                                   >> ${HOME}/.bashrc.d/emacs &&
-      echo "  export XMODIFIERS='@im=fcitx'"                                                               >> ${HOME}/.bashrc.d/emacs &&
-      echo "fi"                                                                                            >> ${HOME}/.bashrc.d/emacs &&
-      . ${HOME}/.bashrc.d/emacs
+      wget -q -P ~/.local/share/tools/ https://raw.githubusercontent.com/akermu/emacs-libvterm/refs/heads/master/etc/emacs-vterm-bash.sh &&
+      . ~/.local/share/tools/emacs-vterm-bash.sh
 #+end_src
 
 #+begin_src sh
-  git clone git@github.com:chupaaaaaaan/emacs.d.git ${HOME}/.emacs.d &&
-      mkdir -p ${HOME}/.local/elisp/local
+  git clone git@github.com:chupaaaaaaan/emacs.d.git ~/.emacs.d &&
+      mkdir -p ~/.local/elisp/local
 #+end_src
 
 #+begin_src sh
@@ -238,13 +212,13 @@ EOF
 #+begin_src sh
   sudo apt update &&
       sudo apt -y install fcitx5-mozc &&
-      : > ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export GTK_IM_MODULE=fcitx'                                      >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export QT_IM_MODULE=fcitx'                                       >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo 'export XMODIFIERS=@im=fcitx'                                     >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -dr > /dev/null 2>&1' >> ${HOME}/.bash_profile.d/fcitx5 &&
-      echo '[ $SHLVL = 1 ] && xset -r 49 > /dev/null 2>&1'                   >> ${HOME}/.bash_profile.d/fcitx5 &&
-      . ${HOME}/.bash_profile.d/fcitx5 &&
+      export GTK_IM_MODULE=fcitx &&
+      export QT_IM_MODULE=fcitx &&
+      export XMODIFIERS=@im=fcitx &&
+      : > ~/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && fcitx5 --disable=wayland -dr > /dev/null 2>&1' >> ~/.bash_profile.d/fcitx5 &&
+      echo '[ $SHLVL = 1 ] && xset -r 49 > /dev/null 2>&1'                   >> ~/.bash_profile.d/fcitx5 &&
+      . ~/.bash_profile.d/fcitx5 &&
       fcitx5-configtool
 #+end_src
 
@@ -263,16 +237,12 @@ EOF
 ** Haskell
 #+begin_src sh
   wget -q -O- https://get-ghcup.haskell.org | sh &&
-      : > ${HOME}/.bash_profile.d/ghcup &&
-      echo '[ -f ${HOME}/.ghcup/env ] && . ${HOME}/.ghcup/env' >> ${HOME}/.bash_profile.d/ghcup &&
-      . ${HOME}/.bash_profile.d/ghcup &&
-      wget -q -O ${HOME}/.local/share/bash-completion/completions/ghcup.bash https://raw.githubusercontent.com/haskell/ghcup-hs/refs/heads/master/scripts/shell-completions/bash
+      [[ -f ~/.ghcup/env ]] && . ~/.ghcup/env
+      wget -q -O ~/.local/share/bash-completion/completions/ghcup.bash https://raw.githubusercontent.com/haskell/ghcup-hs/refs/heads/master/scripts/shell-completions/bash
 #+end_src
 
 #+begin_src sh
-  : > ${HOME}/.bashrc.d/stack &&
-      echo 'eval "$(stack --bash-completion-script stack)"' >> ${HOME}/.bashrc.d/stack &&
-      . ${HOME}/.bashrc.d/stack &&
+  eval "$(stack --bash-completion-script stack)" &&
       stack config set install-ghc --global false &&
       stack config set  system-ghc --global true
 #+end_src
@@ -303,10 +273,8 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
       sudo add-apt-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" &&
       sudo apt update &&
       sudo apt -y install vagrant &&
-      : > ${HOME}/.bash_profile.d/vagrant &&
-      echo 'export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"'               >> ${HOME}/.bash_profile.d/vagrant &&
-      echo 'export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"' >> ${HOME}/.bash_profile.d/vagrant &&
-      . ${HOME}/.bash_profile.d/vagrant &&
+      export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1" &&
+      export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
       vagrant plugin install virtualbox_WSL2 &&
       vagrant plugin install vagrant-hosts &&
       vagrant plugin install vagrant-disksize &&
@@ -315,33 +283,25 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 
 ** go
 #+begin_src sh
-  : > ${HOME}/.bash_profile.d/go &&
-      echo 'export GOPATH="$HOME/.local/go"' >> ${HOME}/.bash_profile.d/go &&
-      echo 'export PATH="$GOPATH/bin:/usr/local/go/bin:$PATH"' >> ${HOME}/.bash_profile.d/go &&
-      . ${HOME}/.bash_profile.d/go &&
-      ( GOVERSION=1.23.2 &&
-            sudo rm -rf /usr/local/go &&
-            wget -q -O- https://go.dev/dl/go${GOVERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - )
+  GOVERSION=1.23.2 &&
+      sudo rm -rf /usr/local/go &&
+      wget -q -O- https://go.dev/dl/go${GOVERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xzf -
 #+end_src
 
 ** Python
 #+begin_src sh
-  : > ${HOME}/.bash_profile.d/python &&
-      echo 'export PYPATH="$HOME/.local/python"' >> ${HOME}/.bash_profile.d/python &&
-      echo 'export PATH="$PYPATH/bin:$PATH"'     >> ${HOME}/.bash_profile.d/python &&
-      . ${HOME}/.bash_profile.d/python &&
-      ( PYVERSION=3.12.0 &&
-            wget -q -O- https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz | tar -C /tmp -xJf - &&
-            cd /tmp/Python-${PYVERSION} &&
-            ./configure --prefix=$PYPATH &&
-            make && make install )
+  PYVERSION=3.12.0 &&
+      wget -q -O- https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tar.xz | tar -C /tmp -xJf - &&
+      cd /tmp/Python-${PYVERSION} &&
+      ./configure --prefix=$PYPATH &&
+      make && make install
 #+end_src
 
 ** コマンドラインツール類
 *** peco
 #+begin_src sh
   wget -q -O- https://github.com/peco/peco/releases/latest/download/peco_linux_amd64.tar.gz | tar -C /tmp -xzf - &&
-      mv /tmp/peco_linux_amd64/peco ${HOME}/.local/bin
+      mv /tmp/peco_linux_amd64/peco ~/.local/bin
 #+end_src
 
 *** oj (competitive programming)
@@ -350,8 +310,8 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 #+end_src
 *** yq
 #+begin_src sh
-  wget -q -O ${HOME}/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 &&
-      chmod +x ${HOME}/.local/bin/yq
+  wget -q -O ~/.local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 &&
+      chmod +x ~/.local/bin/yq
 #+end_src
 
 *** gh
@@ -373,16 +333,14 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
   wget -q -O /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip &&
       unzip -u -d /tmp /tmp/awscliv2.zip &&
       sudo /tmp/aws/install --update &&
-      bash ${HOME}/Dropbox/creds/aws_cred_setup.bash
+      bash ~/Dropbox/creds/aws_cred_setup.bash
 #+end_src
 
 *** SDKMAN
 #+begin_src sh
   wget -q -O- https://get.sdkman.io | bash &&
-      : > ${HOME}/.bashrc.d/sdkman &&
-      echo 'export SDKMAN_DIR="${HOME}/.sdkman"'                                                 >> ${HOME}/.bashrc.d/sdkman &&
-      echo '[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && . "${SDKMAN_DIR}/bin/sdkman-init.sh"' >> ${HOME}/.bashrc.d/sdkman &&
-      . ${HOME}/.bashrc.d/sdkman
+      export SDKMAN_DIR=~/.sdkman &&
+      [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && . "${SDKMAN_DIR}/bin/sdkman-init.sh"
 #+end_src
 
 *** Terraform
