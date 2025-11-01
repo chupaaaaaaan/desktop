@@ -1,5 +1,4 @@
-* WSL2 - Ubuntu 20.04 setup
-
+* WSL2 - Ubuntu 22.04 setup
 ** 事前準備
 - [ ] (再作成の場合)仮想マシンの登録解除
   #+begin_src
