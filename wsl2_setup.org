@@ -171,9 +171,7 @@ see below:
 #+begin_src sh
   sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
       sudo apt update &&
-      sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin && #=> cmake and libtool-bin for vterm
-      wget -q -P ~/.local/share/tools/ https://raw.githubusercontent.com/akermu/emacs-libvterm/refs/heads/master/etc/emacs-vterm-bash.sh &&
-      . ~/.local/share/tools/emacs-vterm-bash.sh
+      sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin #=> cmake and libtool-bin for vterm
 #+end_src
 
 #+begin_src sh
