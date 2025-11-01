@@ -46,22 +46,22 @@
            gron \
            jq \
            language-pack-ja \
+           libblas-dev \
            libbz2-dev \
            libdb-dev \
            libffi-dev \
-           libffi8 \
            libgdbm-dev \
+           libglpk-dev \
            libgmp-dev \
-           libgmp10 \
+           libgsl-dev \
+           liblapack-dev \
            liblzma-dev \
            libncurses-dev \
-           libncurses6 \
            libncursesw5-dev \
            libpq-dev \
            libreadline-dev \
            libsqlite3-dev \
            libssl-dev \
-           libtinfo6 \
            manpages-ja \
            manpages-ja-dev \
            ripgrep \
