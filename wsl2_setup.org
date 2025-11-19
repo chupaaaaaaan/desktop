@@ -178,33 +178,6 @@ see below:
       mkdir -p ~/.local/elisp/local
 #+end_src
 
-#+begin_src sh
-{ sudo tee /usr/local/bin/emacs-noime >/dev/null <<EOF
-#!/usr/bin/env bash
-export GTK_IM_MODULE=gtk-im-context-simple
-export XMODIFIERS='@im=none'
-unset QT_IM_MODULE
-exec /usr/bin/emacs
-EOF
-} && sudo chmod +x /usr/local/bin/emacs-noime &&
-{ sudo tee /usr/local/share/applications/emacs-noime.desktop > /dev/null <<EOF
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Emacs (GUI, No IME)
-GenericName=Text Editor
-Comment=GNU Emacs without fcitx/ibus env for stability under WSLg
-Exec=/usr/local/bin/emacs-noime %F
-TryExec=/usr/local/bin/emacs-noime
-Icon=emacs
-Terminal=false
-Categories=Utility;Development;TextEditor;
-StartupNotify=true
-Keywords=Text;Editor;
-EOF
-}
-#+end_src
-
 ** Input method
 #+begin_src sh
   sudo apt update &&
