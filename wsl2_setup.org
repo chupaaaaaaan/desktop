@@ -41,6 +41,7 @@
            connect-proxy \
            curl \
            firefox \
+           fonts-noto-color-emoji \
            git \
            graphviz \
            gron \
@@ -115,6 +116,11 @@
       sudo wget -q https://www.ubuntulinux.jp/sources.list.d/jammy.list -O /etc/apt/sources.list.d/ubuntu-ja.list &&
       sudo apt update &&
       sudo apt -y install ubuntu-defaults-ja
+#+end_src
+
+** tmux
+#+begin_src sh
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 #+end_src
 
 ** Docker CE
