@@ -168,9 +168,8 @@ see below:
 
 ** Emacs 30
 #+begin_src sh
-  sudo add-apt-repository ppa:ubuntuhandbook1/emacs &&
-      sudo apt update &&
-      sudo apt -y install emacs emacs-el emacs-mozc cmake libtool-bin #=> cmake and libtool-bin for vterm
+  sudo snap install emacs --classic &&
+      sudo apt -y install cmake libtool-bin #=> for vterm
 #+end_src
 
 #+begin_src sh
