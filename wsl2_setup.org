@@ -281,8 +281,13 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 #+end_src
 
 *** oj (competitive programming)
+
+PyPi上のものは最新版ではないので、Gitから直接インストールする
+またapi-clientについてはPRからインストールする (AtCoderのメモリ表記変更が本体に反映されていないため)
+https://github.com/online-judge-tools/api-client/pull/173
 #+begin_src sh
-  python3 -m pip install --user online-judge-tools
+  pip install git+https://github.com/online-judge-tools/oj.git
+  pip install -U --force-reinstall "online-judge-api-client @ git+https://github.com/online-judge-tools/api-client.git@refs/pull/173/merge"
 #+end_src
 *** yq
 #+begin_src sh
