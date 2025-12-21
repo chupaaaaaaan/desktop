@@ -65,6 +65,7 @@
            libssl-dev \
            manpages-ja \
            manpages-ja-dev \
+           peco \
            ripgrep \
            tk-dev \
            tmux \
@@ -274,11 +275,6 @@ https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-do
 #+end_src
 
 ** コマンドラインツール類
-*** peco
-#+begin_src sh
-  wget -q -O- https://github.com/peco/peco/releases/latest/download/peco_linux_amd64.tar.gz | tar -C /tmp -xzf - &&
-      mv /tmp/peco_linux_amd64/peco ~/.local/bin
-#+end_src
 
 *** oj (competitive programming)
 
