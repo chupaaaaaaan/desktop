@@ -164,8 +164,13 @@ see below:
 
 ** Node
 #+begin_src sh
+  if [ -z "${XDG_CONFIG_HOME-}" ]; then
+      export NVM_DIR=$HOME/.nvm
+  else
+      export NVM_DIR=$XDG_CONFIG_HOME/nvm
+  fi
+
   wget -q -O- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash &&
-      export NVM_DIR=$HOME/.nvm &&
       [ -s "$NVM_DIR/nvm.sh" ] && . $NVM_DIR/nvm.sh &&
       [ -s "$NVM_DIR/bash_completion" ] && . $NVM_DIR/bash_completion &&
       [ "none" = $(nvm current) ] && nvm install node &&
