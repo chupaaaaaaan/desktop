@@ -237,11 +237,13 @@ see below:
 #+end_src
 
 ** Intellij IDEA
-#+begin_src sh
-  sudo snap install intellij-idea-ultimate --classic
-#+end_src
 
-- ライセンス情報を入力後、設定を同期する
+#+begin_src sh
+  IDEAVERSION=2025.3.3 &&
+      sudo rm -rf /usr/local/idea &&
+      sudo mkdir -p /usr/local/idea &&
+      wget -q -O- /tmp/idea.tar.gz https://download.jetbrains.com/idea/idea-${IDEAVERSION}.tar.gz | sudo tar xzvf - --strip-components=1 -C /usr/local/idea
+#+end_src
 
 ** virtualbox/vagrant (only configuration for WSL2)
 
