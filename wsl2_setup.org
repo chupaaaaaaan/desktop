@@ -310,6 +310,11 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
   go install github.com/x-motemen/ghq@latest
 #+end_src
 
+*** gwq
+#+begin_src sh
+  go install github.com/d-kuro/gwq/cmd/gwq@latest
+src
+
 *** git-delta
 #+begin_src sh
   wget -q -O /tmp/git-delta.deb https://github.com/dandavison/delta/releases/download/0.13.0/git-delta_0.13.0_amd64.deb &&
