@@ -65,6 +65,7 @@
            libssl-dev \
            manpages-ja \
            manpages-ja-dev \
+           openjdk-21-jdk \
            ripgrep \
            tk-dev \
            tmux \
