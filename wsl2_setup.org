@@ -316,7 +316,7 @@ see https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 *** gwq
 #+begin_src sh
   go install github.com/d-kuro/gwq/cmd/gwq@latest
-src
+#+end_src
 
 *** git-delta
 #+begin_src sh
