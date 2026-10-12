@@ -310,6 +310,9 @@ see https://developer.hashicorp.com/terraform/install
   npm install -g @openai/codex
 #+end_src
 
+*** ChatGPT App
+see https://learn.chatgpt.com/docs/linux/linux-app
+
 *** skills
 - [ ] mattpocock/skills
   #+begin_src sh
